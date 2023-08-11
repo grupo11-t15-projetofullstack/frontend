@@ -1,3 +1,4 @@
+import DefaultFooter from "@/components/footer"
 import DefaultHeader from "@/components/header"
 import { GetServerSideProps, NextPage } from "next"
 
@@ -6,7 +7,20 @@ import { GetServerSideProps, NextPage } from "next"
 // }
 
 const Home: NextPage = () => {
-  return <DefaultHeader />
+  return (
+    <>
+    <div className="flex flex-col min-h-screen">
+      <DefaultHeader />
+      
+      <div className="flex-grow"> 
+      
+      </div>
+      
+      <DefaultFooter />
+    </div>
+    </>
+  
+  )
 }
 
 // export const getServerSideProps: GetServerSideProps = async () => {
