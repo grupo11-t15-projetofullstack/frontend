@@ -1,5 +1,6 @@
 import DefaultFooter from "@/components/footer"
 import DefaultHeader from "@/components/header"
+import { Select } from "@/components/select"
 import { GetServerSideProps, NextPage } from "next"
 
 // interface HomeProps {
@@ -13,7 +14,7 @@ const Home: NextPage = () => {
       <DefaultHeader />
       
       <div className="flex-grow"> 
-      
+      <Select/>
       </div>
       
       <DefaultFooter />
