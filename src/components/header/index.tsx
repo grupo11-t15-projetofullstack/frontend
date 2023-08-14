@@ -1,12 +1,19 @@
-import { NextPage } from 'next';
-import Image from 'next/image';
-import Logo from '../../assets/Logo.svg';
-import Link from 'next/link';
+import { NextPage } from "next"
+import Image from "next/image"
+import Logo from "../../assets/Logo.svg"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 const DefaultHeader: NextPage = () => {
+  const router = useRouter()
   return (
-    <header className="flex justify-between h-20 border-b border-grey-grey6 pr-20">
-      <Image src={Logo} alt="Logo image" className="mx-20 my-5" />
+    <header className="flex justify-between h-17 border-b border-grey-grey6 pr-20">
+      <Image
+        src={Logo}
+        alt="Logo image"
+        onClick={() => router.push("/")}
+        className="mx-20 my-5 cursor-pointer"
+      />
 
       <div className="flex flex-row justify-between gap-10 border-l-2 border-grey-grey6 pl-14 h-20">
         <Link href="/login" className="pt-7 text-grey-grey2 text-center">
