@@ -1,12 +1,25 @@
+import Card from "@/components/card"
 import DefaultHeader from "@/components/header"
 import { GetServerSideProps, NextPage } from "next"
+import { useState } from "react"
 
 // interface HomeProps {
 //   publications: PublicationData[]
 // }
 
 const Home: NextPage = () => {
-  return <DefaultHeader />
+  const [publications, setPublications] = useState([])
+
+  return (
+    <>
+      <DefaultHeader />
+      <main>
+        <div className=" w-72 mx-auto mt-8 h-80">
+          <Card />
+        </div>
+      </main>
+    </>
+  )
 }
 
 // export const getServerSideProps: GetServerSideProps = async () => {
