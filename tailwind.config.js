@@ -80,7 +80,7 @@ module.exports = {
           lineHeight: "40px",
         },
         heading4_600: {
-          fontSize: "28x",
+          fontSize: "28px",
           fontWeight: "600",
           lineHeight: "35px",
         },

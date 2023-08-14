@@ -1,5 +1,6 @@
-import Card from "@/components/card"
+import DefaultFooter from "@/components/footer"
 import DefaultHeader from "@/components/header"
+import { Select } from "@/components/select"
 import { GetServerSideProps, NextPage } from "next"
 import { useState } from "react"
 
@@ -8,16 +9,17 @@ import { useState } from "react"
 // }
 
 const Home: NextPage = () => {
-  const [publications, setPublications] = useState([])
-
   return (
     <>
+    <div className="flex flex-col min-h-screen">
       <DefaultHeader />
-      <main>
-        <div className=" w-72 mx-auto mt-8 h-80">
-          <Card />
-        </div>
-      </main>
+      
+      <div className="flex-grow"> 
+      <Select/>
+      </div>
+      
+      <DefaultFooter />
+    </div>
     </>
   )
 }
