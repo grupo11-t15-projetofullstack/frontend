@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       
       <div className="flex-grow"> 
       <Select/>
-     
+
       </div>
       
       <DefaultFooter />

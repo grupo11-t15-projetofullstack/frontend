@@ -8,9 +8,8 @@ const ModalCreateAd = ({ onClose }) => {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
                 width: '100%',
-
                 height: '100%',
                 display: 'flex',
                 justifyContent: 'center',
@@ -22,13 +21,17 @@ const ModalCreateAd = ({ onClose }) => {
                     backgroundColor: 'white',
                     padding: '20px',
                     borderRadius: '8px',
-                    
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+
                 }}>
-                    <div style={{ width: '100%', display: 'flex', alignItems: 'center', marginLeft: '15px', flexDirection: 'row', gap: '320px', }}>
+                    <div style={{ width: '100%', display: 'flex', alignItems: 'center', marginLeft: '15px', flexDirection: 'row', gap: '320px', padding: '16px, 24px, 16px, 24px' }}>
+
                         <p style={{
                             font: 'Lexend',
-                            fontWeight: '700',
-                            fontSize: '16px',
+                            fontWeight: '500',
+                            fontSize: '14px',
                             lineHeight: '16.94px'
 
                         }}>Criar anuncio</p>
@@ -36,11 +39,17 @@ const ModalCreateAd = ({ onClose }) => {
                     </div>
 
 
-                    <form style={{ display: 'flex', flexDirection: 'column' }}>
+                    <form style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <p style={{
+                            font: 'Lexend',
+                            fontWeight: '500',
+                            fontSize: '14px',
+                            lineHeight: '24px'
+                        }}>informações do veículo</p>
                         <label style={{
                             font: 'Lexend',
-                            fontWeight: '700',
-                            fontSize: '16px',
+                            fontWeight: '500',
+                            fontSize: '14px',
                             lineHeight: '16.94px'
 
                         }}>Marca</label>
@@ -62,8 +71,8 @@ const ModalCreateAd = ({ onClose }) => {
 
                         <label style={{
                             font: 'Lexend',
-                            fontWeight: '700',
-                            fontSize: '16px',
+                            fontWeight: '500',
+                            fontSize: '14px',
                             lineHeight: '16.94px'
 
                         }}>Modelo</label>
@@ -84,11 +93,12 @@ const ModalCreateAd = ({ onClose }) => {
                             <option value="porsche-718">Porsche 718</option>
                         </select>
 
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row',  width: '100%', gap: '120px'}}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             <label style={{
                                 font: 'Lexend',
-                                fontWeight: '700',
-                                fontSize: '16px',
+                                fontWeight: '500',  
+                                fontSize: '14px',
                                 lineHeight: '16.94px'
 
                             }}>Ano</label>
@@ -99,11 +109,13 @@ const ModalCreateAd = ({ onClose }) => {
                                 borderRadius: '4px',
                                 border: '2px solid #E9ECEF'
                             }}></input>
+                            </div>
 
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             <label style={{
                                 font: 'Lexend',
-                                fontWeight: '700',
-                                fontSize: '16px',
+                                fontWeight: '500',
+                                fontSize: '14px',
                                 lineHeight: '16.94px'
 
                             }}>Combustível</label>
@@ -114,14 +126,16 @@ const ModalCreateAd = ({ onClose }) => {
                                 borderRadius: '4px',
                                 border: '2px solid #E9ECEF'
                             }}></input>
+                            </div>
 
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row',  width: '100%', gap: '120px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             <label style={{
                                 font: 'Lexend',
-                                fontWeight: '700',
-                                fontSize: '16px',
+                                fontWeight: '500',
+                                fontSize: '14px',
                                 lineHeight: '16.94px'
 
                             }}>Quilometragem</label>
@@ -132,12 +146,13 @@ const ModalCreateAd = ({ onClose }) => {
                                 borderRadius: '4px',
                                 border: '2px solid #E9ECEF'
                             }}></input>
+                            </div>
 
-
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             <label style={{
                                 font: 'Lexend',
-                                fontWeight: '700',
-                                fontSize: '16px',
+                                fontWeight: '500',
+                                fontSize: '14px',
                                 lineHeight: '16.94px'
 
                             }}>Cor</label>
@@ -148,14 +163,16 @@ const ModalCreateAd = ({ onClose }) => {
                                 borderRadius: '4px',
                                 border: '2px solid #E9ECEF'
                             }}></input>
+                            </div>
                         </div>
 
 
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', width: '100%', gap: '120px'}}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             <label style={{
                                 font: 'Lexend',
-                                fontWeight: '700',
-                                fontSize: '16px',
+                                fontWeight: '500',
+                                fontSize: '14px',
                                 lineHeight: '16.94px'
 
                             }}>Preço tabela FIPE</label>
@@ -166,12 +183,13 @@ const ModalCreateAd = ({ onClose }) => {
                                 borderRadius: '4px',
                                 border: '2px solid #E9ECEF'
                             }}></input>
+                            </div>
 
-
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             <label style={{
                                 font: 'Lexend',
-                                fontWeight: '700',
-                                fontSize: '16px',
+                                fontWeight: '500',
+                                fontSize: '14px',
                                 lineHeight: '16.94px'
 
                             }}>Preço</label>
@@ -182,13 +200,14 @@ const ModalCreateAd = ({ onClose }) => {
                                 borderRadius: '4px',
                                 border: '2px solid #E9ECEF'
                             }}></input>
+                            </div>
                         </div>
 
 
                         <label style={{
                             font: 'Lexend',
-                            fontWeight: '700',
-                            fontSize: '16px',
+                            fontWeight: '500',
+                            fontSize: '14px',
                             lineHeight: '16.94px'
 
                         }}>Descrição</label>
@@ -202,8 +221,8 @@ const ModalCreateAd = ({ onClose }) => {
 
                         <label style={{
                             font: 'Lexend',
-                            fontWeight: '700',
-                            fontSize: '16px',
+                            fontWeight: '500',
+                            fontSize: '14px',
                             lineHeight: '16.94px'
 
                         }}>Imagem de capa</label>
@@ -217,8 +236,8 @@ const ModalCreateAd = ({ onClose }) => {
 
                         <label style={{
                             font: 'Lexend',
-                            fontWeight: '700',
-                            fontSize: '16px',
+                            fontWeight: '500',
+                            fontSize: '14px',
                             lineHeight: '16.94px'
 
                         }}>1 * Imagem de capa</label>
@@ -232,8 +251,8 @@ const ModalCreateAd = ({ onClose }) => {
 
                         <label style={{
                             font: 'Lexend',
-                            fontWeight: '700',
-                            fontSize: '16px',
+                            fontWeight: '500',
+                            fontSize: '14px',
                             lineHeight: '16.94px'
 
                         }}>2 * Imagem de capa</label>
@@ -247,18 +266,19 @@ const ModalCreateAd = ({ onClose }) => {
 
                         <button style={{
                             background: '#EDEAFD',
-                            borderRadius: '4px'
+                            borderRadius: '4px',
+                            padding: '12px, 20px, 12px, 20px',
+                            width: '100%',
+                            maxWidth: '268px',
+                            font: 'Inter',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            color: '#4529E6',
+                            height: '38px',
+
                         }}>
-                            <p style={{
-                                font: 'Inter',
-                                fontWeight: '600',
-                                fontSize: '14px',
-                                color: '#4529E6'
-
-
-                            }}>
-                                Adicionar campo para imagem da galeria
-                            </p></button>
+                            Adicionar campo para imagem da galeria
+                        </button>
 
                         <div style={{
                             display: 'flex',
