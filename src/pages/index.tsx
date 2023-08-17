@@ -15,16 +15,35 @@ import { useState } from "react"
 const Home: NextPage = () => {
   return (
     <>
-    <div className="flex flex-col min-h-screen">
-      <DefaultHeader />
-      
-      <div className="flex-grow"> 
-      <Select/>
+      <div className="flex flex-col min-h-screen">
+        <DefaultHeader />
 
+        <div className="flex-grow">
+          <Select />
+   
+          <div style={{maxWidth: '320px'}}>
+          <Card publication={{
+              model: "",
+              make: "",
+              year: 0,
+              color: "",
+              fuel: "",
+              isGoodSale: true,
+              coverImg: "",
+              distance: 0,
+              price: 0,
+              description: "",
+              userId: 0,
+              comments: [],
+              images: []
+            }} />
+  
+          </div>
+          
+        </div>
+
+        <DefaultFooter />
       </div>
-      
-      <DefaultFooter />
-    </div>
     </>
   )
 }

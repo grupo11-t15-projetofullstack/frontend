@@ -1,8 +1,28 @@
 import { NextPage } from "next"
 import { redirect } from "next/navigation"
 import Image from "next/image"
+import { useRouter } from "next/router"
 
-const Card: NextPage = () => {
+interface CardProps {
+  publication: {
+    model: string;
+    make: string;
+    year: number;
+    color: string;
+    fuel: string;
+    isGoodSale: true;
+    coverImg: string;
+    distance: number;
+    price: number;
+    description: string;
+    userId: number;
+    comments: [];
+    images: []
+  };
+}
+
+const Card: NextPage<CardProps> = ({publication}) => {
+  const router = useRouter()
   return (
     <div className="relative flex flex-col gap-3">
       <Image
@@ -19,7 +39,7 @@ const Card: NextPage = () => {
         <div className="rounded-full w-10 h-10 bg-brands-brand1 ">
           <p className="text-center mt-2 text-grey-whiteFixed">UN</p>
         </div>
-        <h2 className="my-auto">User Name</h2>
+        <h2 className="my-auto" onClick={()=> router.push("/ownProfile")}>User Name</h2>
       </div>
       <div className="flex flex-row justify-between mt-1">
         <div className="flex flex-row gap-2">
