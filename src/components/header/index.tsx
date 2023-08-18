@@ -16,15 +16,17 @@ const DefaultHeader: NextPage = () => {
       />
 
       <div className="flex flex-row justify-between gap-10 border-l-2 border-grey-grey6 pl-14 h-20">
-        <Link href="/login" className="pt-7 text-grey-grey2 text-center">
+        <button className="pt-7 text-grey-grey2 text-center"
+          onClick={() => router.push("/login")}>
           Fazer Login
-        </Link>
-        <Link
-          href="/register"
+        </button>
+
+        <button
+          onClick={() => router.push("/register")}
           className="my-auto p-1 border px-6 rounded border-grey-grey4 text-grey-grey0 font-semibold"
         >
           Cadastrar
-        </Link>
+        </button>
       </div>
     </header>
   );

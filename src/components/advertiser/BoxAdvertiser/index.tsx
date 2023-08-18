@@ -55,7 +55,7 @@ const BoxAdvertiser = () => {
         </p>
         <button style={{border: '2px solid #4529E6', color: '#4529E6', width: '160px', height: '48px', borderRadius: '4px', padding: '12px, 28px, 12px, 28px', font: 'Inter', fontSize: '16px', fontWeight: '600'}}    onClick={toggleModal}>Criar anúncio</button>
 
-        {isOpenModal && <Modal toggleModal={toggleModal}></Modal>}
+        {isOpenModal && <Modal toggleModal={toggleModal}><Modal/></Modal>}
       </div>
     </div>
   );

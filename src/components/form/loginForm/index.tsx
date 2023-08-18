@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { Input } from "../input";
 import { useNavigate } from "react-router-dom";
 import { ILogin, UserContext } from "@/contexts/user";
+import { useRouter } from "next/router"
 
 const schema = yup.object({
   email: yup.string().required("O email é obrigatório"),
@@ -19,11 +20,13 @@ export const LoginForm = () => {
     formState: { errors },
   } = useForm<ILogin>({ resolver: yupResolver(schema) });
 
-  const navigate = useNavigate();
+
 
   const onSubmit: SubmitHandler<ILogin> = (data) => {
     UserLogin(data);
   };
+
+  const router = useRouter()
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-200">
@@ -53,7 +56,7 @@ export const LoginForm = () => {
         </button>
         <p className="text-center mt-2">Ainda não possui conta?</p>
         <button
-          onClick={() => navigate("/register")}
+         onClick={()=> router.push("/register")}
           className="btnRegisterLogin w-full mt-2 bg-gray-400 text-white py-2 rounded hover:bg-gray-500 transition duration-300"
         >
           Cadastrar
