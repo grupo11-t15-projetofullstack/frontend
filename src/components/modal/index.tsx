@@ -34,11 +34,11 @@ export const Modal = ({ children, toggleModal }: ModalProps) => {
     <div className="fixed top-0 bg-grey-grey0 bg-opacity-50 w-screen h-screen flex justify-center items-center">
       <div
         ref={ref}
-        className="relative p-5 max-w-64 rounded bg-grey-grey9 shadow-2xl"
+        className="relative p-5 max-w-64 max-h-[54rem] overflow-y-scroll rounded bg-grey-whiteFixed shadow-2xl"
       >
         <p
           onClick={toggleModal}
-          className="absolute top-1 right-2 cursor-pointer"
+          className="absolute top-4 right-3 w-6 h-6 cursor-pointer text-grey-grey3"
         >
           X
         </p>
