@@ -1,5 +1,4 @@
 import { NextPage } from "next"
-import { redirect } from "next/navigation"
 import Image from "next/image"
 import { useRouter } from "next/router"
 

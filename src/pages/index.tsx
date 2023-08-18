@@ -3,16 +3,20 @@ import ModalCreateAd from "@/components/advertiser/Modal"
 import Card from "@/components/card"
 import DefaultFooter from "@/components/footer"
 import DefaultHeader from "@/components/header"
+import { Modal } from "@/components/modal"
+import { PublishForm } from "@/components/publishForm"
 import { Select } from "@/components/select"
 import { GetServerSideProps, NextPage } from "next"
 import { useState } from "react"
-
 
 // interface HomeProps {
 //   publications: PublicationData[]
 // }
 
-const Home: NextPage = () => {
+
+const Home: NextPage = ({ repo }: HomeProps) => {
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const toggleModal = () => setIsOpenModal(!isOpenModal)
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -48,11 +52,13 @@ const Home: NextPage = () => {
   )
 }
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const response = await api.get("/publications")
-//   return {
-//     props: { publications: response.data },
-//   }
-// }
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
+  const repo = await res.json()
+
+  return {
+    props: { repo },
+  }
+}
 
 export default Home
