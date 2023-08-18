@@ -1,9 +1,11 @@
 import { RegisterForm } from "@/components/form/register";
+import { NextPage } from "next";
 
-export function RegisterPage() {
+ const RegisterPage: NextPage = ()=> {
   return (
     <div>
       <RegisterForm />
     </div>
   );
 }
+export default RegisterPage

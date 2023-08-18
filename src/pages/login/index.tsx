@@ -1,10 +1,11 @@
 import { LoginForm } from "@/components/form/loginForm";
 
 
-export function LoginPage(){
+ const LoginPage = () => {
     return(
         <div>
             <LoginForm />
         </div>
     )
 }
+export default LoginPage

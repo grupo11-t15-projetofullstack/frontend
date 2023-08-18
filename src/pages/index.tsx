@@ -2,6 +2,8 @@ import BoxAdvertiser from "@/components/advertiser/BoxAdvertiser"
 import ModalCreateAd from "@/components/advertiser/Modal"
 import Card from "@/components/card"
 import DefaultFooter from "@/components/footer"
+import { LoginForm } from "@/components/form/loginForm"
+import { RegisterForm } from "@/components/form/register"
 import DefaultHeader from "@/components/header"
 import { Modal } from "@/components/modal"
 import { PublishForm } from "@/components/publishForm"
@@ -43,7 +45,7 @@ const Home: NextPage = ({ repo }: HomeProps) => {
             }} />
   
           </div>
-          
+      
         </div>
 
         <DefaultFooter />
