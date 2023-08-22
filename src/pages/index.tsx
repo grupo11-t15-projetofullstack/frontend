@@ -1,5 +1,3 @@
-import BoxAdvertiser from "@/components/advertiser/BoxAdvertiser"
-import ModalCreateAd from "@/components/advertiser/Modal"
 import Card from "@/components/card"
 import DefaultFooter from "@/components/footer"
 import { LoginForm } from "@/components/form/loginForm"
@@ -15,6 +13,7 @@ import { useState } from "react"
 interface HomeProps {
   publications: Publication[]; 
 }
+
 
 interface Publication {
   model: string;
@@ -33,15 +32,21 @@ interface Publication {
 }
 
 const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
+
   const [isOpenModal, setIsOpenModal] = useState(false)
   const toggleModal = () => setIsOpenModal(!isOpenModal)
   return (
     <>
       <div className="flex flex-col min-h-screen">
         <DefaultHeader />
-
+        {isOpenModal && (
+          <Modal toggleModal={toggleModal}>
+            <PublishForm toggleModal={toggleModal} repo={repo} />
+          </Modal>
+        )}
         <div className="flex-grow">
           <Select />
+
    
           <div style={{maxWidth: '320px', display: 'flex'}}>
           {publications.map((publication, index) => (
@@ -50,10 +55,12 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
   
           </div>
       
-        </div>
 
-        <DefaultFooter />
+        </div>
       </div>
+      <button onClick={() => toggleModal()}>MODAL</button>
+
+      <DefaultFooter />
     </>
   )
 }

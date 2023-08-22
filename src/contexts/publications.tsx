@@ -1,4 +1,5 @@
 import { PublishRequest } from "@/schemas/publish.schema"
+import { api } from "@/services/api"
 import {
   Dispatch,
   ReactNode,
@@ -13,10 +14,8 @@ interface Props {
 }
 
 interface PublishProviderData {
-  coverImg: String | null
-  setCoverImg: Dispatch<SetStateAction<File | null>>
-  images: String | null
-  setImages: Dispatch<SetStateAction<File | null>>
+  images: string[]
+  setImages: Dispatch<SetStateAction<string[]>>
   createPublish: () => void
   publishInfo: PublishRequest
   setPublishInfo: Dispatch<SetStateAction<PublishRequest>>
@@ -27,6 +26,7 @@ const PublishContext = createContext<PublishProviderData>(
 )
 
 export function PublishProvider({ children }: Props) {
+  const [images, setImages] = useState<string[]>([])
   const [publishInfo, setPublishInfo] = useState({
     model: "",
     make: "",
@@ -35,23 +35,22 @@ export function PublishProvider({ children }: Props) {
     fuel: "",
     distance: 0,
     price: 0,
-    userId: "",
     description: "",
     coverImg: "",
   })
+
+  const createPublish = () => {
+    console.log(publishInfo)
+  }
   return (
     <PublishContext.Provider
-      value={
-        {
-          // coverImg,
-          // setCoverImg,
-          // images,
-          // setImages,
-          // createPublish,
-          // publishInfo,
-          // setPublishInfo,
-        }
-      }
+      value={{
+        createPublish,
+        publishInfo,
+        setPublishInfo,
+        setImages,
+        images,
+      }}
     >
       {children}
     </PublishContext.Provider>
