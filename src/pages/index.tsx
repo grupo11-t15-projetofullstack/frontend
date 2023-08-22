@@ -1,17 +1,38 @@
 import Card from "@/components/card"
 import DefaultFooter from "@/components/footer"
+import { LoginForm } from "@/components/form/loginForm"
+import { RegisterForm } from "@/components/form/register"
 import DefaultHeader from "@/components/header"
 import { Modal } from "@/components/modal"
 import { PublishForm } from "@/components/publishForm"
 import { Select } from "@/components/select"
+import publicationData from "@/mock/publication"
 import { GetServerSideProps, NextPage } from "next"
 import { useState } from "react"
 
-// interface HomeProps {
-//   publications: PublicationData[]
-// }
+interface HomeProps {
+  publications: Publication[]; 
+}
 
-const Home: NextPage = ({ repo }: any) => {
+
+interface Publication {
+  model: string;
+  make: string;
+  year: number;
+  color: string;
+  fuel: string;
+  isGoodSale: boolean;
+  coverImg: string;
+  distance: number;
+  price: number;
+  description: string;
+  userId: number;
+  comments: any[];
+  images: any[];
+}
+
+const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
+
   const [isOpenModal, setIsOpenModal] = useState(false)
   const toggleModal = () => setIsOpenModal(!isOpenModal)
   return (
@@ -25,26 +46,16 @@ const Home: NextPage = ({ repo }: any) => {
         )}
         <div className="flex-grow">
           <Select />
-          <div style={{ maxWidth: "320px" }}>
-            <Card
-              publication={{
-                model: "",
-                make: "",
-                year: 0,
-                color: "",
-                fuel: "",
-                isGoodSale: true,
-                coverImg: "",
-                distance: 0,
-                price: 0,
-                description: "",
-                userId: 0,
-                comments: [],
-                images: [],
-              }}
-            />
+
+   
+          <div style={{maxWidth: '320px', display: 'flex'}}>
+          {publications.map((publication, index) => (
+              <Card key={index} publication={publication} />
+            ))}
+  
           </div>
-          M
+      
+
         </div>
       </div>
       <button onClick={() => toggleModal()}>MODAL</button>
@@ -57,9 +68,10 @@ const Home: NextPage = ({ repo }: any) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
   const repo = await res.json()
+  const publications = publicationData;
 
   return {
-    props: { repo },
+    props: { publications}, 
   }
 }
 
