@@ -1,19 +1,13 @@
-import BoxAdvertiser from "@/components/advertiser/BoxAdvertiser"
-import ModalCreateAd from "@/components/advertiser/Modal"
-import Card from "@/components/card"
-import DefaultFooter from "@/components/footer"
-import { LoginForm } from "@/components/form/loginForm"
-import { RegisterForm } from "@/components/form/register"
-import DefaultHeader from "@/components/header"
-import { Modal } from "@/components/modal"
-import { PublishForm } from "@/components/publishForm"
-import { Select } from "@/components/select"
-import publicationData from "@/mock/publication"
-import { GetServerSideProps, NextPage } from "next"
-import { useState } from "react"
+import Card from "@/components/card";
+import DefaultFooter from "@/components/footer";
+import DefaultHeader from "@/components/header";
+import { Select } from "@/components/select";
+import { GetServerSideProps, NextPage } from "next";
+import { PublishProviderData } from "@/contexts/publications"; // Importe a interface para referência
+import { api } from "@/services/api";
 
 interface HomeProps {
-  publications: Publication[]; 
+  publications: Publication[];
 }
 
 interface Publication {
@@ -33,8 +27,6 @@ interface Publication {
 }
 
 const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
-  const [isOpenModal, setIsOpenModal] = useState(false)
-  const toggleModal = () => setIsOpenModal(!isOpenModal)
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -42,30 +34,38 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
 
         <div className="flex-grow">
           <Select />
-   
-          <div style={{maxWidth: '320px', display: 'flex'}}>
-          {publications.map((publication, index) => (
+
+          <div style={{ maxWidth: "320px", display: "flex" }}>
+            {publications.map((publication, index) => (
               <Card key={index} publication={publication} />
             ))}
-  
           </div>
-      
         </div>
 
         <DefaultFooter />
       </div>
     </>
-  )
-}
+  );
+};
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
-  const repo = await res.json()
-  const publications = publicationData;
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  try {
+    const response = await api.get("/publications");
+    const publications: Publication[] = response.data; // Atualize com os dados reais
 
-  return {
-    props: { publications}, 
+    return {
+      props: {
+        publications,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {
+        publications: [],
+      },
+    };
   }
-}
+};
 
-export default Home
+export default Home;
