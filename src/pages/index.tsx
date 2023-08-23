@@ -1,14 +1,20 @@
-import Card from "@/components/card";
-import DefaultFooter from "@/components/footer";
-import DefaultHeader from "@/components/header";
-import { Select } from "@/components/select";
-import { GetServerSideProps, NextPage } from "next";
-import { PublishProviderData } from "@/contexts/publications"; // Importe a interface para referência
-import { api } from "@/services/api";
+import Card from "@/components/card"
+import DefaultFooter from "@/components/footer"
+import { LoginForm } from "@/components/form/loginForm"
+import { RegisterForm } from "@/components/form/register"
+import DefaultHeader from "@/components/header"
+import { Modal } from "@/components/modal"
+import { PublishForm } from "@/components/publishForm"
+import { Select } from "@/components/select"
+import publicationData from "@/mock/publication"
+import { api } from "@/services/api"
+import { GetServerSideProps, NextPage } from "next"
+import { useState } from "react"
 
 interface HomeProps {
   publications: Publication[];
 }
+
 
 interface Publication {
   model: string;
@@ -27,11 +33,18 @@ interface Publication {
 }
 
 const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
+
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const toggleModal = () => setIsOpenModal(!isOpenModal)
   return (
     <>
       <div className="flex flex-col min-h-screen">
         <DefaultHeader />
-
+        {isOpenModal && (
+          <Modal toggleModal={toggleModal}>
+            <PublishForm toggleModal={toggleModal} repo={repo} />
+          </Modal>
+        )}
         <div className="flex-grow">
           <Select />
 
@@ -41,9 +54,9 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
             ))}
           </div>
         </div>
+              <DefaultFooter/>
+        </div>
 
-        <DefaultFooter />
-      </div>
     </>
   );
 };

@@ -18,17 +18,9 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
   useEffect(() => {
     const makers = Object.keys(repo)
     setMakerList(makers)
-  }, [])
+  }, [repo])
 
-  const {
-    coverImg,
-    setCoverImg,
-    images,
-    setImages,
-    createPublish,
-    publishInfo,
-    setPublishInfo,
-  } = usePublish()
+  const { createPublish, publishInfo, setPublishInfo } = usePublish()
 
   const handleChange = (e: any) => {
     const maker = e.target.value
@@ -49,7 +41,7 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
           className="w-9/10 p-2 border rounded border-grey-grey7"
           onChange={(e) => {
             handleChange(e)
-            // setPublishInfo({ ...publishInfo, make: e.target.value })
+            setPublishInfo({ ...publishInfo, make: e.target.value })
           }}
         >
           {makerList?.map((maker) => (
@@ -65,7 +57,7 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
         <select
           className="w-9/10 p-2 border rounded border-grey-grey7"
           onChange={(e) => {
-            // setPublishInfo({ ...publishInfo, model: e.target.value })
+            setPublishInfo({ ...publishInfo, model: e.target.value })
           }}
         >
           {models?.map((model) => (
@@ -200,9 +192,9 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
         <div>
           <textarea
             name="description"
-            // onChange={(e) => {
-            //   setPublishInfo({ ...publishInfo, description: e.target.value })
-            // }}
+            onChange={(e) => {
+              setPublishInfo({ ...publishInfo, description: e.target.value })
+            }}
             className="h-28 w-full border rounded mt-1 border-grey-grey7"
           />
         </div>
@@ -229,7 +221,14 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
 
       <div className="flex justify-end gap-6 my-4">
         <button onClick={toggleModal}>Cancelar</button>
-        <button>Criar anúncio</button>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            createPublish()
+          }}
+        >
+          Criar anúncio
+        </button>
       </div>
     </>
   )

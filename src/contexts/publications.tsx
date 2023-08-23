@@ -66,7 +66,6 @@ export function PublishProvider({ children }: Props) {
     fuel: "",
     distance: 0,
     price: 0,
-    userId: "",
     description: "",
     coverImg: "",
   });
