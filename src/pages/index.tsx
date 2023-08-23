@@ -7,11 +7,12 @@ import { Modal } from "@/components/modal"
 import { PublishForm } from "@/components/publishForm"
 import { Select } from "@/components/select"
 import publicationData from "@/mock/publication"
+import { api } from "@/services/api"
 import { GetServerSideProps, NextPage } from "next"
 import { useState } from "react"
 
 interface HomeProps {
-  publications: Publication[]; 
+  publications: Publication[];
 }
 
 
@@ -47,32 +48,37 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
         <div className="flex-grow">
           <Select />
 
-   
-          <div style={{maxWidth: '320px', display: 'flex'}}>
-          {publications.map((publication, index) => (
+          <div style={{ maxWidth: "320px", display: "flex" }}>
+            {publications.map((publication, index) => (
               <Card key={index} publication={publication} />
             ))}
-  
           </div>
-      
-
         </div>
-      </div>
-      <button onClick={() => toggleModal()}>MODAL</button>
+              <DefaultFooter/>
+        </div>
 
-      <DefaultFooter />
     </>
-  )
-}
+  );
+};
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
-  const repo = await res.json()
-  const publications = publicationData;
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  try {
+    const response = await api.get("/publications");
+    const publications: Publication[] = response.data; // Atualize com os dados reais
 
-  return {
-    props: { publications}, 
+    return {
+      props: {
+        publications,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {
+        publications: [],
+      },
+    };
   }
-}
+};
 
-export default Home
+export default Home;
