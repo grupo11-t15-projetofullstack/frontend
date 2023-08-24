@@ -30,14 +30,44 @@ interface PublishProviderData {
   setImages: Dispatch<SetStateAction<any>>
   createPublish: (e: { preventDefault: () => void }, carInfo: CarInfo) => void
   publishInfo: PublishRequest
-  setPublishInfo: Dispatch<SetStateAction<PublishRequest>>
+  setPublishInfo: Dispatch<SetStateAction<any>>
+  getAllPublish: (data: IgetAllPublishProps) => Promise<void>
+  setPublish: Dispatch<SetStateAction<IPublish[]>>
+  publish: IPublish[]
 }
+
+interface IPublish {
+  model: string
+  make: string
+  year: number
+  color: string
+  fuel: string
+  isGoodSale: boolean
+  coverImg: string
+  distance: number
+  price: number
+  description: string
+  userId: number
+}
+
+interface IgetAllPublishProps {}
 
 const PublishContext = createContext<PublishProviderData>(
   {} as PublishProviderData
 )
 
 export function PublishProvider({ children }: Props) {
+  const [publish, setPublish] = useState<IPublish[]>([])
+
+  const getAllPublish = async (data: IgetAllPublishProps) => {
+    try {
+      const response = await api.get("/publications", data)
+      setPublish(response.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const [publishInfo, setPublishInfo] = useState({
     model: "",
     make: "",
@@ -46,6 +76,7 @@ export function PublishProvider({ children }: Props) {
     fuel: "",
     distance: 0,
     price: 0,
+    userId: "",
     description: "",
     coverImg: "",
     images: [""],
@@ -80,13 +111,17 @@ export function PublishProvider({ children }: Props) {
     // }
     console.log(publishInfo)
   }
+
   return (
     <PublishContext.Provider
       value={{
+        publishInfo,
+        getAllPublish,
+        setPublish,
+        publish,
         images,
         setImages,
         createPublish,
-        publishInfo,
         setPublishInfo,
       }}
     >

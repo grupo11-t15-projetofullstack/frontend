@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { Input } from "../input";
 import { useNavigate } from "react-router-dom";
 import { IRegister, UserContext } from "@/contexts/user";
+import { useRouter } from "next/router";
 
 const schema = yup.object({
   name: yup.string().required("O nome é Obrigatório "),
@@ -17,7 +18,7 @@ const schema = yup.object({
 });
 
 export const RegisterForm = () => {
-  const navigate = useNavigate();
+  const router = useRouter()
 
   const { UserRegister } = useContext(UserContext);
   const {
@@ -75,8 +76,7 @@ export const RegisterForm = () => {
       />
       <Input
         type="select"
-        options="Comprador"
-        options="Anunciante"
+        options={["Comprador", "Anunciante"]}
         label="Tipo de Conta"
         register={register("addressId")}
         error={(errors as Record<string, FieldError>).isSeller}
@@ -96,7 +96,7 @@ export const RegisterForm = () => {
       <button className="submitSignup" type="submit">
         Finalizar Cadastro
       </button>
-      <button onClick={() => navigate("/login")} className="backToLoginButton">
+      <button   onClick={()=> router.push("/login")} className="backToLoginButton">
         Voltar para o login
       </button>
     </form>
