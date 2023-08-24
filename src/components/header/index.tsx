@@ -16,8 +16,10 @@ const DefaultHeader: NextPage = () => {
       />
 
       <div className="flex flex-row justify-between gap-10 border-l-2 border-grey-grey6 pl-14 h-20">
-        <button className="pt-7 text-grey-grey2 text-center"
-          onClick={() => router.push("/login")}>
+        <button
+          className="pt-7 text-grey-grey2 text-center mb-8"
+          onClick={() => router.push("/login")}
+        >
           Fazer Login
         </button>
 
@@ -29,7 +31,7 @@ const DefaultHeader: NextPage = () => {
         </button>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default DefaultHeader;
+export default DefaultHeader

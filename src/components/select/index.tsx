@@ -1,98 +1,209 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react"
+import Slider from "@mui/material/Slider"
 
-export const Select = () => {
-    const [kilometers, setKilometers] = useState(0);
+interface FilterProps {
+  repo: any
+}
 
-    const handleKilometersChange = (event) => {
-        setKilometers(event.target.value);
-    };
+interface Model {
+  name: string[]
+}
 
-    const [price, setPrice] = useState(10000);
+export const Select = ({ repo }: FilterProps) => {
+  const [kilometers, setKilometers] = useState(0)
+  const [makerList, setMakerList] = useState<string[]>([])
+  const [modelList, setModelList] = useState<Model[]>([])
 
-    const handlePriceChange = (event) => {
-        setPrice(event.target.value);
-    };
-    return (
-        <>
-            <div style={{ width: '100%', maxWidth: '300px', display: 'flex', alignItems: 'center', marginLeft: '15px'}}>
-                <form style={{ display: 'flex', flexDirection: 'column' }}>
-                    <label>Marca</label>
-                    <select>
-                        <option value="general-motors">General Motors</option>
-                        <option value="fiat">Fiat</option>
-                        <option value="ford">Ford</option>
-                        <option value="honda">Honda</option>
-                        <option value="porsche">Porsche</option>
-                        <option value="volkswagen">Volkswagen</option>
-                    </select>
+  useEffect(() => {
+    repo.map((item: { name: string }) =>
+      setMakerList([...makerList, item.name])
+    )
+  }, [makerList, repo])
 
-                    <label>Modelo</label>
-                    <select>
-                        <option value="civic">Civic</option>
-                        <option value="corolla">Corolla</option>
-                        <option value="cruze">Cruze</option>
-                        <option value="fit">Fit</option>
-                        <option value="gol">Gol</option>
-                        <option value="ka">Ka</option>
-                        <option value="onix">Onix</option>
-                        <option value="porsche-718">Porsche 718</option>
-                    </select>
+  const [valueKm, setValueKm] = React.useState<number[]>([0, 650000])
 
-                    <label>Cor</label>
-                    <select>
-                        <option value="azul">Azul</option>
-                        <option value="branca">Branca</option>
-                        <option value="cinza">Cinza</option>
-                        <option value="prata">Prata</option>
-                        <option value="preta">Preta</option>
-                        <option value="verde">Verde</option>
-                    </select>
+  const handleChangeKm = (event: Event, newValue: number | number[]) => {
+    setValueKm(newValue as number[])
+  }
 
-                    <label>Ano</label>
-                    <select>
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
-                        <option value="2018">2018</option>
-                        <option value="2015">2015</option>
-                        <option value="2013">2013</option>
-                        <option value="2012">2012</option>
-                        <option value="2010">2010</option>
-                    </select>
+  const handleChangeModel = async (e: any) => {
+    const maker = e.target.value
 
-                    <label>Combustível</label>
-                    <select>
-                        <option value="eletrico">Elétrico</option>
-                        <option value="flex">Flex</option>
-                        <option value="hibrido">Híbrido</option>
-                    </select>
+    const value = repo[maker]
 
-                    <label>KM</label>
-                    <input
-                        type="range"
-                        min="0"
-                        max="650000"
-                        step="1"
-                        value={kilometers}
-                        onChange={handleKilometersChange}
-                    />
-                    <p>{kilometers} km</p>
+    setModelList(value)
+  }
 
+  const [valuePrice, setValuePrice] = React.useState<number[]>([0, 1000000])
 
+  const handleChangePrice = (event: Event, newValue: number | number[]) => {
+    setValuePrice(newValue as number[])
+  }
 
-                    <label>Preço</label>
-                    <input
-                        type="range"
-                        min="10000"
-                        max="550000"
-                        step="1000"
-                        value={price}
-                        onChange={handlePriceChange}
-                    />
-                    <p>R$ {price.toLocaleString('pt-BR')}</p>
+  return (
+    <>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "300px",
+          display: "flex",
+          alignItems: "center",
+          marginLeft: "15px",
+        }}
+      >
+        <form style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div>
+            <label className="font-semibold text-2xl mb-2">Marca</label>
+            <ul>
+              {makerList?.map((maker, index) => (
+                <li
+                  key={index}
+                  className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                  onClick={(e) => handleChangeModel(e)}
+                >
+                  {maker}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-                    <button>Limpar filtros</button>
-                </form>
-            </div>
-        </>
-    );
-};
+          <div>
+            <label className="font-semibold text-2xl mb-2">Modelo</label>
+          </div>
+
+          <div>
+            <label className="font-semibold text-2xl mb-2">Cor</label>
+            <ul>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="azul"
+              >
+                Azul
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="branca"
+              >
+                Branca
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="cinza"
+              >
+                Cinza
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="prata"
+              >
+                Prata
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="preta"
+              >
+                Preta
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="verde"
+              >
+                Verde
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <label className="font-semibold text-2xl mb-2">Ano</label>
+            <ul>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="2019"
+              >
+                2019
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="2020"
+              >
+                2020
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="2021"
+              >
+                2021
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="2022"
+              >
+                2022
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <label className="font-semibold text-2xl mb-2">Combustível</label>
+            <ul>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="eletrico"
+              >
+                Elétrico
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="flex"
+              >
+                Flex
+              </li>
+              <li
+                className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                value="hibrido"
+              >
+                Híbrido
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="font-semibold text-2xl mb-2">KM</label>
+            <Slider
+              value={valueKm}
+              onChange={handleChangeKm}
+              valueLabelDisplay="auto"
+              min={0}
+              max={650000}
+              defaultValue={35000}
+              className="w-52"
+            />
+            <p className="ml-3 text-xl font-medium text-grey-grey3">
+              {valueKm[0]}km - {valueKm[1]}km
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="font-semibold text-2xl mb-2">Preço</label>
+            <Slider
+              value={valuePrice}
+              onChange={handleChangePrice}
+              valueLabelDisplay="auto"
+              min={0}
+              max={1000000}
+              defaultValue={35000}
+              className="w-52"
+            />
+            <p className="ml-3 text-xl font-medium text-grey-grey3">
+              R${valuePrice[0].toFixed(2)} - R${valuePrice[1].toFixed(2)}
+            </p>
+          </div>
+
+          <button className="border bg-brands-brand2 text-grey-whiteFixed p-2 mt-4">
+            Limpar filtros
+          </button>
+        </form>
+      </div>
+    </>
+  )
+}
