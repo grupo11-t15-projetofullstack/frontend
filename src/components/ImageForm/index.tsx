@@ -23,9 +23,9 @@ export const ImageForm = () => {
           <input
             type="url"
             onChange={(e) => {
-              setImages([...images, e.target.value])
+              setImages({ ...images, image1: e.target.value })
             }}
-            className="w-full p-2 border rounded mt-1 text-grey-grey3 border-grey-grey7"
+            className="w-full p-2 border rounded mt-1 border-grey-grey7"
           />
         </div>
       </div>
@@ -37,22 +37,25 @@ export const ImageForm = () => {
           <input
             type="url"
             onChange={(e) => {
-              setImages([...images, e.target.value])
+              setImages({ ...images, image2: e.target.value })
             }}
             className="w-full p-2 border rounded mt-1 text-grey-grey3 border-grey-grey7"
           />
         </div>
 
-        {imagesInput?.map((image) => (
-          <div key={imagesInput.length} className="mt-2">
+        {imagesInput?.map((image, index) => (
+          <div key={index} className="mt-2">
             <label htmlFor="coverImg" className="text-sm font-medium">
-              {}° Imagem da galeria
+              {index + 3}° Imagem da galeria
             </label>
             <div>
               <input
                 type="url"
                 onChange={(e) => {
-                  setImages([...images, e.target.value])
+                  const imageNumber = index + 3
+                  const concat = "image" + imageNumber
+                  console.log(concat)
+                  setImages({ ...images, concat: e.target.value })
                 }}
                 className="w-full p-2 border rounded mt-1 text-grey-grey3 border-grey-grey7"
               />
