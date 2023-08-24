@@ -3,7 +3,6 @@ import { useState } from "react"
 
 export const ImageForm = () => {
   const { images, setImages } = usePublish()
-
   const [imagesInput, setImageInput] = useState<string[]>([])
   const [input, setInput] = useState<number[]>([1, 2])
 
