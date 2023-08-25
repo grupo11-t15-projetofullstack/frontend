@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-interface CardProps {
+export interface CardProps {
   publication: {
     model: string;
     make: string;
@@ -14,6 +14,7 @@ interface CardProps {
     distance: number;
     price: number;
     description: string;
+    user: { name: string }
     userId: number;
     comments: [];
     images: [];
@@ -33,8 +34,12 @@ const Card: NextPage<CardProps> = ({ publication }) => {
         <div className="rounded-full w-10 h-10 bg-brands-brand1 ">
           <p className="text-center mt-2 text-grey-whiteFixed">{publication.userId}</p>
         </div>
-        <h2 className="my-auto" onClick={() => router.push("/ownProfile")}>
-          User Name
+        <h2 className="my-auto" onClick={() => {
+          if (publication.user && publication.user.name) {
+            router.push(`/users/${publication.userId}`);
+          }
+        }}>
+          {publication.user?.name}
         </h2>
       </div>
       <div className="flex flex-row justify-between mt-1">

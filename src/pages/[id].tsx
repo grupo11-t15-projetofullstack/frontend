@@ -4,19 +4,43 @@ import DefaultFooter from "@/components/footer";
 import DefaultHeader from "@/components/header";
 import publicationData from "@/mock/publication";
 import { publictData } from "@/schemas/music.schema";
-import { GetStaticProps, NextPage } from "next";
+import { api } from "@/services/api";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 
-
-interface PublicationsProps {
-    publict: publictData;
+interface UserProfileProps {
+  user: UserData;
 }
 
-const OwnProfile: NextPage<PublicationsProps> = ({ publict }: PublicationsProps) => {
+interface UserData {
+  id: number;
+  name: string;
+  publications: Publication[];
+}
+
+
+interface Publication {
+    model: string;
+    make: string;
+    year: number;
+    color: string;
+    fuel: string;
+    isGoodSale: boolean;
+    coverImg: string;
+    distance: number;
+    price: number;
+    description: string;
+    userId: number;
+    comments: any[];
+    images: any[];
+  }
+
+const OwnProfile: NextPage<UserProfileProps> = ({ user }: UserProfileProps) => {
     return (
         <div className="flex flex-col min-h-screen">
             <header>
                 <DefaultHeader />
             </header>
+          
             <div style={{ flex: 1, position: 'relative', background: '#F1F3F5' }}>
                 <div
                     style={{
@@ -57,18 +81,26 @@ const OwnProfile: NextPage<PublicationsProps> = ({ publict }: PublicationsProps)
     );
 };
 
-export const getStaticPaths = async () => {
+
+export const getServerSideProps: GetServerSideProps<UserProfileProps> = async (context) => {
+  const userId = context.params?.userId as string;
+
+  try {
+    const response = await api.get(`/users/${userId}`); // Adjust the API endpoint as needed
+    const user: UserData = response.data;
+    const publications: Publication[] = response.data;
     return {
-        paths: [{ params: { id: "95ad2591-1d59-4bed-9618-42c49f25a73c" } }],
-        fallback: "blocking"
+      props: {
+        user,
+        publications
+      },
     };
-};
-
-export const getStaticProps: GetStaticProps<PublicationsProps> = async (ctx) => {
-    const id = ctx.params!.id;
-    // const response = await api.get<MusicData>(`/musics/${id}`);
-
-    return { props: { publict: id }, revalidate: 60 };
+  } catch (error) {
+    console.error(error);
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default OwnProfile;

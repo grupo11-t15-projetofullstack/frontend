@@ -64,7 +64,7 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   try {
     const response = await api.get("/publications");
-    const publications: Publication[] = response.data; // Atualize com os dados reais
+    const publications: Publication[] = response.data;
 
     return {
       props: {
