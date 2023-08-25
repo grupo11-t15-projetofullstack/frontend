@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+import { Modal } from "@/components/modal";
+import { useState } from "react";
+
+const BoxAdvertiser = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
+=======
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { Modal } from "@/components/modal";
@@ -34,6 +43,7 @@ const BoxAdvertiser = (user) => {
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const toggleModal = () => setIsOpenModal(!isOpenModal)
+>>>>>>> d7549ac2012c3f6456571aaff723e7246799761a
 
     // const { userPublications, getOneUser } = useContext(UserContext);
 
@@ -47,29 +57,51 @@ const BoxAdvertiser = (user) => {
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'column', 
-        justifyContent: 'flex-start', 
-        alignItems: 'flex-start', 
-        background: 'white',
-        width: '1240px',
-        height: '406px',
-        borderRadius: '4px',
-        padding: '20px',
-        overflow: 'hidden',
-        gap: '45px'
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+        background: "white",
+        width: "1240px",
+        height: "406px",
+        borderRadius: "4px",
+        padding: "20px",
+        overflow: "hidden",
+        gap: "45px",
       }}
     >
+<<<<<<< HEAD
+      <div className="rounded-full w-20 h-20 bg-brands-brand1">
+        <p className="text-center mt-6 text-grey-whiteFixed">SL</p>
+=======
          <div className="rounded-full w-20 h-20 bg-brands-brand1">
         <p className="text-center mt-6 text-grey-whiteFixed">{ userData.user.name && userData.user.name[0].toUpperCase()}</p>
+>>>>>>> d7549ac2012c3f6456571aaff723e7246799761a
       </div>
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
         }}
       >
+<<<<<<< HEAD
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "15px",
+          }}
+        >
+          <strong>Samuel Leão</strong>
+          <p
+            style={{
+              backgroundColor: "#EDEAFD",
+              color: "#4529E6",
+              padding: "4px 8px",
+            }}
+          >
+=======
         <div   style={{
         display: 'flex',
         flexDirection: 'row', 
@@ -81,15 +113,42 @@ const BoxAdvertiser = (user) => {
             color: '#4529E6',
             padding: '4px 8px', 
           }}>
+>>>>>>> d7549ac2012c3f6456571aaff723e7246799761a
             Anunciante
-            </p>
+          </p>
         </div>
+<<<<<<< HEAD
+
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem adipisci
+          minima inventore officia dicta repellat maiores! Iure ad porro
+          laudantium. Est molestiae nesciunt nam eius distinctio esse voluptate
+          debitis libero.
+        </p>
+        <button
+          style={{
+            border: "2px solid #4529E6",
+            color: "#4529E6",
+            width: "160px",
+            height: "48px",
+            borderRadius: "4px",
+            padding: "12px, 28px, 12px, 28px",
+            font: "Inter",
+            fontSize: "16px",
+            fontWeight: "600",
+          }}
+          onClick={toggleModal}
+        >
+          Criar anúncio
+        </button>
+=======
        <button onClick={()=> console.log(userData.user) }>Console</button>
         <p>
       {userData?.user.description}
         </p>
         <button style={{border: '2px solid #4529E6', color: '#4529E6', width: '160px', height: '48px', borderRadius: '4px', padding: '12px, 28px, 12px, 28px', font: 'Inter', fontSize: '16px', fontWeight: '600'}}    onClick={toggleModal}>Criar anúncio</button>
         <div style={{ display: 'flex', flexDirection: 'row', gap: '60px' }}>
+>>>>>>> d7549ac2012c3f6456571aaff723e7246799761a
 
         <button onClick={toggleProfileModal}>Editar perfil</button>
         {isProfileModalOpen && <ModalProfileEdit user={userData.user} toggleModal={toggleProfileModal} />}
