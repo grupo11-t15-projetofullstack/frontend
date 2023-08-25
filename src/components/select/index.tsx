@@ -14,11 +14,11 @@ export const Select = ({ repo }: FilterProps) => {
   const [makerList, setMakerList] = useState<string[]>([])
   const [modelList, setModelList] = useState<Model[]>([])
 
-  useEffect(() => {
-    repo.map((item: { name: string }) =>
-      setMakerList([...makerList, item.name])
-    )
-  }, [makerList, repo])
+  // useEffect(() => {
+  //   repo.map((item: { name: string }) =>
+  //     setMakerList([...makerList, item.name])
+  //   )
+  // }, [makerList, repo])
 
   const [valueKm, setValueKm] = React.useState<number[]>([0, 650000])
 
@@ -47,11 +47,11 @@ export const Select = ({ repo }: FilterProps) => {
           width: "100%",
           maxWidth: "300px",
           display: "flex",
-          alignItems: "center",
+
           marginLeft: "15px",
         }}
       >
-        <form style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <form className="flex flex-col gap-2">
           <div>
             <label className="font-semibold text-2xl mb-2">Marca</label>
             <ul>
@@ -199,7 +199,7 @@ export const Select = ({ repo }: FilterProps) => {
             </p>
           </div>
 
-          <button className="border bg-brands-brand2 text-grey-whiteFixed p-2 mt-4">
+          <button className="border w-[200px] bg-brands-brand2 text-grey-whiteFixed p-2 mt-4">
             Limpar filtros
           </button>
         </form>
