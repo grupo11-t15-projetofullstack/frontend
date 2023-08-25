@@ -1,6 +1,10 @@
-import api from "@/services/api";
-import React, { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  ResetPasswordData,
+  SendEmailResetPasswordData,
+} from "@/schemas/user.schema";
+import { api } from "@/services/api";
+import { useRouter } from "next/router";
+import React, { createContext, useState } from "react";
 import { toast } from "react-toastify";
 
 export const UserContext = createContext({} as IUserContext);
@@ -14,7 +18,7 @@ export interface IUser {
   name: string;
   email: string;
   phone: string;
-  addressId?: Adresses;
+  // addressId?: Adresses;
   isSeller: boolean;
   avatar: string;
   description: string;
@@ -28,6 +32,8 @@ interface IUserContext {
   UserLogin: (formData: ILogin) => Promise<void>;
   UserRegister: (formData: IRegister) => Promise<void>;
   userLogout: () => void;
+  sendEmail: (sendEmailResetPasswordData: SendEmailResetPasswordData) => void;
+  resetPassword: (resetPasswordData: ResetPasswordData, token: string) => void;
 }
 
 export interface ILogin {
@@ -44,35 +50,69 @@ export interface IRegister {
   phone: string;
   birth: string;
   description: string;
-  addressId?: Adresses;
+  // addressId?: Adresses;
   isSeller: boolean;
 }
 
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const Token = localStorage.getItem("@Token")!;
-  const userID = localStorage.getItem("@USERID");
-  const navigate = useNavigate();
+  // const Token = localStorage.getItem("@Token")!;
+  // const userID = localStorage.getItem("@USERID");
+  const router = useRouter();
 
   const UserLogin = async (formData: ILogin) => {
     try {
       const response = await api.post<any>("/login", formData);
-      localStorage.setItem("@Token", response.data.accessToken);
-      localStorage.setItem("@USERID", response.data.user.id);
-      localStorage.setItem("@USERNAME", response.data.user.name);
-      setUser(response.data.user);
+      localStorage.setItem("@Token", response.data.token);
+      // localStorage.setItem("@USERID", response.data.user.id);
+      // localStorage.setItem("@USERNAME", response.data.user.name);
+      // setUser(response.data.user);
       toast.success("Login Realizado com sucesso!");
-      navigate("/dashboard");
+      router.push("/dashboard");
     } catch (error) {
       toast.error("Email ou senha invalido");
     }
   };
+
+  const sendEmail = (
+    sendEmailResetPasswordData: SendEmailResetPasswordData
+  ) => {
+    api
+      .post("users/resetPassword", sendEmailResetPasswordData)
+      .then(() => {
+        toast.success("E-mail enviado com sucesso!");
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Erro ao enviar o e-mail, tente novamente mais tarde");
+      });
+  };
+
+  const resetPassword = (
+    resetPasswordData: ResetPasswordData,
+    token: string
+  ) => {
+    api
+      .patch(`users/resetPassword/${token}`, {
+        password: resetPasswordData.password,
+      })
+      .then(() => {
+        toast.success("Senha atualizada com sucesso");
+        router.push("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Erro ao atualizar a senha");
+      });
+  };
+
   const UserRegister = async (formData: IRegister) => {
     try {
       const response = api.post("/users", formData);
       setUser((await response).data.user);
       toast.success("Registro feito com sucesso!");
-      navigate("/");
+      router.push("/");
     } catch (error) {
       toast.error("Usúario já cadastrado");
     }
@@ -85,7 +125,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     localStorage.removeItem("@USERNAME");
     localStorage.removeItem("@USERID");
     toast.success("Logout Realizado com sucesso!");
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -96,6 +136,8 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         UserLogin,
         UserRegister,
         userLogout,
+        resetPassword,
+        sendEmail,
       }}
     >
       {children}
