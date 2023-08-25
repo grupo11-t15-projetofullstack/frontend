@@ -1,27 +1,13 @@
-import { NextPage } from "next"
+import { Publication } from "@/pages"
 import Image from "next/image"
 import { useRouter } from "next/router"
 
-export interface CardProps {
-  publication: {
-    model: string;
-    make: string;
-    year: number;
-    color: string;
-    fuel: string;
-    isGoodSale: boolean;
-    coverImg: string;
-    distance: number;
-    price: number;
-    description: string;
-    user: { name: string }
-    userId: number;
-    comments: [];
-    images: [];
-  };
+
+interface CardProps {
+  publication: Publication
 }
 
-const Card: NextPage<CardProps> = ({ publication }) => {
+const Card = ({ publication }: CardProps) => {
   const router = useRouter()
 
   return (
@@ -45,15 +31,16 @@ const Card: NextPage<CardProps> = ({ publication }) => {
       <div className="flex flex-row self-start gap-4 mt-1">
         <div className="rounded-full w-10 h-10 bg-brands-brand1 ">
           <p className="text-center mt-2 text-grey-whiteFixed">
-            {publication.user.name.charAt(0).toUpperCase()}
+            {publication.user?.name.charAt(0).toUpperCase()}
           </p>
         </div>
-        <h2 className="my-auto" onClick={() => {
-          if (publication.user && publication.user.name) {
-            router.push(`/${publication.userId}`);
-          }
-        }}>
-          {publication.user?.name}
+        <h2
+          className="my-auto cursor-pointer"
+          onClick={() => router.push(`/${publication.userId}`)}
+        >
+          {publication.user &&
+            publication.user.name.charAt(0).toUpperCase() +
+              publication.user.name.slice(1)}
         </h2>
       </div>
       <div className="flex flex-row justify-between mt-1">
