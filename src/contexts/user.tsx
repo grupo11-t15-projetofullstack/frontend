@@ -4,7 +4,12 @@ import {
 } from "@/schemas/user.schema";
 import { api } from "@/services/api";
 import { useRouter } from "next/router";
-import React, { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 
 export const UserContext = createContext({} as IUserContext);
@@ -47,7 +52,7 @@ export interface IUserOwnPublish {
 }
 
 interface Comment {
-  userId: number
+  userId: number;
 }
 
 interface IUserContext {
@@ -58,7 +63,7 @@ interface IUserContext {
   userLogout: () => void;
   sendEmail: (sendEmailResetPasswordData: SendEmailResetPasswordData) => void;
   resetPassword: (resetPasswordData: ResetPasswordData, token: string) => void;
-  UserUpdate: (formData: IUpdateProfile) => Promise<void>,
+  UserUpdate: (formData: IUpdateProfile) => Promise<void>;
   UserPublication: (publications: IUserOwnPublish[]) => void;
   getOneUser: (userId: number) => Promise<void>;
   userPublications: IUserOwnPublish[];
@@ -96,10 +101,13 @@ export interface IUpdateProfile {
 
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [userPublications, setUserPublications] = useState<IUserOwnPublish[]>(
+    []
+  );
   // const Token = localStorage.getItem("@Token")!;
   // const userID = localStorage.getItem("@USERID");
   const router = useRouter();
-  
+
   const UserLogin = async (formData: ILogin) => {
     try {
       const response = await api.post<any>("/login", formData);
@@ -158,11 +166,11 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const UserUpdate = async (formData: IUpdateProfile) => {
     try {
       const response = api.patch("/users", formData);
-      setUser((await response).data.user)
+      setUser((await response).data.user);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const getOneUser = async (userId: number) => {
     try {
@@ -197,7 +205,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         UserUpdate,
         getOneUser,
         setUserPublications,
-        userPublications
+        userPublications,
       }}
     >
       {children}

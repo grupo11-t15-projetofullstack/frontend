@@ -19,10 +19,13 @@ const SendEmailForm = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+    <div className="flex justify-center items-center h-screen bg-gray-200">
+      <form
+        className="bg-white p-8 rounded shadow-md w-full sm:w-96"
+        onSubmit={handleSubmit(onFormSubmit)}
+      >
         <div>
-          <label htmlFor="email">
+          <label className="text-center text-xl mb-4" htmlFor="email">
             Informe um e-mail para a recuperação de senha
           </label>
           <div>
@@ -34,7 +37,12 @@ const SendEmailForm = () => {
           </div>
         </div>
         <div>
-          <button type="submit">Enviar</button>
+          <button
+            className="btnEnterLogin w-full mt-4 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300"
+            type="submit"
+          >
+            Enviar
+          </button>
         </div>
       </form>
     </div>
