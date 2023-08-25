@@ -1,7 +1,5 @@
 import Card from "@/components/card"
 import DefaultFooter from "@/components/footer"
-import { LoginForm } from "@/components/form/loginForm"
-import { RegisterForm } from "@/components/form/register"
 import DefaultHeader from "@/components/header"
 import { Modal } from "@/components/modal"
 import { PublishForm } from "@/components/publishForm"
@@ -29,8 +27,8 @@ interface Publication {
   price: number
   description: string
   userId: number
-  comments: any[]
-  images: any[]
+  comments: any
+  images: any
 }
 
 const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
@@ -40,18 +38,19 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
     <>
       <div className="flex flex-col min-h-screen">
         <DefaultHeader />
-        <div className="h-[600px] overflow-hidden mb-10">
+        <div className="overflow-hidden mb-10">
           <Image alt="banner" src={bannerHome} className="w-screen" />
         </div>
 
-        <div className="flex-grow">
+        <main className="flex align-middle pl-32 mb-20">
           <Select repo={publications} />
-          {/* <div style={{ maxWidth: "320px", display: "flex" }}>
+          <div className="grid grid-cols-3 gap-10 ml-40">
             {publications.map((publication, index) => (
               <Card key={index} publication={publication} />
             ))}
-          </div> */}
-        </div>
+            {/* <button onClick={() => console.log(publications)}>CONSOLE</button> */}
+          </div>
+        </main>
 
         <DefaultFooter />
       </div>

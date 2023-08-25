@@ -59,15 +59,6 @@ const PublishContext = createContext<PublishProviderData>(
 export function PublishProvider({ children }: Props) {
   const [publish, setPublish] = useState<IPublish[]>([])
 
-  const getAllPublish = async (data: IgetAllPublishProps) => {
-    try {
-      const response = await api.get("/publications", data)
-      setPublish(response.data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   const [publishInfo, setPublishInfo] = useState({
     model: "",
     make: "",
@@ -110,6 +101,15 @@ export function PublishProvider({ children }: Props) {
     //   console.log(error.message)
     // }
     console.log(publishInfo)
+  }
+
+  const getAllPublish = async (data: IgetAllPublishProps) => {
+    try {
+      const response = await api.get("/publications", data)
+      setPublish(response.data)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
