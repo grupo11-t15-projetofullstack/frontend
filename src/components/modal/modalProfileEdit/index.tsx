@@ -1,37 +1,59 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Input } from "@/components/form/input";
+import { UserContext } from "@/contexts/user";
 
 const ModalProfileEdit = ({ toggleModal, user }) => {
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [cpf, setCpf] = React.useState("");
-    const [celular, setCelular] = React.useState("");
-    const [dataNascimento, setDataNascimento] = React.useState("");
-    const [descricao, setDescricao] = React.useState("");
 
-    const handleNameChange = (event) => {
-        setName(event.target.value);
-    };
+    const {  UserUpdateProfile } = useContext(UserContext);
 
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    };
+    const [name, setName] = React.useState(user.name);
+    const [email, setEmail] = React.useState(user.email);
+    const [cpf, setCpf] = React.useState(user.cpf);
+    const [celular, setCelular] = React.useState(user.phone);
+    const [dataNascimento, setDataNascimento] = React.useState(user.birth);
+    const [description, setDescription] = React.useState(user.description);
 
-    const handleCpfChange = (event) => {
-        setCpf(event.target.value);
-    };
+ const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
 
-    const handleCelularChange = (event) => {
-        setCelular(event.target.value);
-    };
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
 
-    const handleDataNascimentoChange = (event) => {
-        setDataNascimento(event.target.value);
-    };
+  const handleCpfChange = (event) => {
+    setCpf(event.target.value);
+  };
 
-    const handleDescricaoChange = (event) => {
-        setDescricao(event.target.value);
-    };
+  const handleCelularChange = (event) => {
+    setCelular(event.target.value);
+  };
+
+  const handleDataNascimentoChange = (event) => {
+    setDataNascimento(event.target.value);
+  };
+
+  const handleDescricaoChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const updatedUser = {
+        ...user,
+        name,
+        email,
+        cpf,
+        phone: celular,
+        birth: dataNascimento,
+        description,
+      };
+      UserUpdateProfile(updatedUser, { id: user.id });
+      toggleModal();
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
 
     return (
         <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0, 0, 0, 0.5)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000 }}>
@@ -98,7 +120,7 @@ const ModalProfileEdit = ({ toggleModal, user }) => {
                 <div style={{display: 'flex', flexDirection: 'row', gap: '90px'}}>
                     <button onClick={toggleModal}>Cancelar</button>
                     <button>Excluir Perfil</button>
-                    <button>Salvar Alterações</button>
+                    <button onClick={handleSaveChanges}>Salvar Alterações</button>
                 </div>
             </div>
         </div>

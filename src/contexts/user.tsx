@@ -1,4 +1,4 @@
-import api from "@/services/api";
+import {api} from "@/services/api";
 import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -53,7 +53,7 @@ interface IUserContext {
   UserLogin: (formData: ILogin) => Promise<void>;
   UserRegister: (formData: IRegister) => Promise<void>;
   userLogout: () => void;
-  UserUpdate: (formData: IUpdateProfile) => Promise<void>,
+  UserUpdateProfile: (formData: IUpdateProfile, user: {id: number}) => void,
   UserPublication: (publications: IUserOwnPublish[]) => void;
   getOneUser: (userId: number) => Promise<void>;
   userPublications: IUserOwnPublish[];
@@ -79,10 +79,9 @@ export interface IRegister {
 }
 
 export interface IUpdateProfile {
+  id: number
   email: string;
-  password: string;
   name: string;
-  confirmPassword: string;
   cpf: string;
   phone: string;
   birth: string;
@@ -120,14 +119,20 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     }
   };
 
-  const UserUpdate = async (formData: IUpdateProfile) => {
+  const UserUpdateProfile = async (formData: IUpdateProfile, user: { id: number }) => {
     try {
-      const response = api.patch("/users", formData);
-      setUser((await response).data.user)
+      console.log(api); // Check the contents of your 'api' object
+      const endpoint = `/users/${user.id}`;
+      console.log('Endpoint:', endpoint); // Verify the endpoint URL
+      
+      const response = await api.patch(endpoint, formData);
+      console.log(response.data);
+      setUser(response.data.user);
+      window.location.reload();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const getOneUser = async (userId: number) => {
     try {
@@ -157,7 +162,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         UserLogin,
         UserRegister,
         userLogout,
-        UserUpdate,
+        UserUpdateProfile,
         getOneUser,
         setUserPublications,
         userPublications

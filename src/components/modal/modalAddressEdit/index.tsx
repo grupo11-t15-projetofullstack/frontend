@@ -46,7 +46,7 @@ const ModalAddressEdit = ({ toggleModal, user }) => {
                     <input
                         type="text"
                         id="name"
-                        value={user.cep}
+                        value={user.address.cep}
                         onChange={handleCepChange}
                     />
                 </div>
@@ -55,7 +55,7 @@ const ModalAddressEdit = ({ toggleModal, user }) => {
                     <input
                         type="email"
                         id="email"
-                        value={user.state}
+                        value={user.address.state}
                         onChange={handleStateChange}
                     />
                 </div>
@@ -64,7 +64,7 @@ const ModalAddressEdit = ({ toggleModal, user }) => {
                     <input
                         type="text"
                         id="cpf"
-                        value={user.city}
+                        value={user.address.city}
                         onChange={handleCityChange}
                     />
                 </div>
@@ -73,7 +73,7 @@ const ModalAddressEdit = ({ toggleModal, user }) => {
                     <input
                         type="text"
                         id="celular"
-                        value={user.street}
+                        value={user.address.street}
                         onChange={handleStreetChange}
                     />
                 </div>
@@ -82,7 +82,7 @@ const ModalAddressEdit = ({ toggleModal, user }) => {
                     <input
                         type="text"
                         id="dataNascimento"
-                        value={user.street}
+                        value={user.address.number}
                         onChange={handleNumberChange}
                     />
                 </div>
@@ -93,7 +93,7 @@ const ModalAddressEdit = ({ toggleModal, user }) => {
                     <input
                         type="text"
                         id="descricao"
-                        value={user.complement}
+                        value={user.address.complement}
                         onChange={handleComplementChange}
                     />
                 </div>
