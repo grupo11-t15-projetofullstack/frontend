@@ -1,15 +1,12 @@
+import {api} from "@/services/api";
+import { useRouter } from "next/router";
+import React, { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import {
   ResetPasswordData,
   SendEmailResetPasswordData,
 } from "@/schemas/user.schema";
 import { api } from "@/services/api";
 import { useRouter } from "next/router";
-import React, {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useState,
-} from "react";
 import { toast } from "react-toastify";
 
 export const UserContext = createContext({} as IUserContext);
@@ -61,9 +58,9 @@ interface IUserContext {
   UserLogin: (formData: ILogin) => Promise<void>;
   UserRegister: (formData: IRegister) => Promise<void>;
   userLogout: () => void;
+  UserUpdateProfile: (formData: IUpdateProfile, user: {id: number}) => void,
   sendEmail: (sendEmailResetPasswordData: SendEmailResetPasswordData) => void;
   resetPassword: (resetPasswordData: ResetPasswordData, token: string) => void;
-  UserUpdate: (formData: IUpdateProfile) => Promise<void>;
   UserPublication: (publications: IUserOwnPublish[]) => void;
   getOneUser: (userId: number) => Promise<void>;
   userPublications: IUserOwnPublish[];
@@ -89,10 +86,9 @@ export interface IRegister {
 }
 
 export interface IUpdateProfile {
+  id: number
   email: string;
-  password: string;
   name: string;
-  confirmPassword: string;
   cpf: string;
   phone: string;
   birth: string;
@@ -163,10 +159,16 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     }
   };
 
-  const UserUpdate = async (formData: IUpdateProfile) => {
+  const UserUpdateProfile = async (formData: IUpdateProfile, user: { id: number }) => {
     try {
-      const response = api.patch("/users", formData);
-      setUser((await response).data.user);
+      console.log(api); 
+      const endpoint = `/users/${user.id}`;
+      console.log('Endpoint:', endpoint); 
+      
+      const response = await api.patch(endpoint, formData);
+      console.log(response.data);
+      setUser(response.data.user);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -200,6 +202,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         UserLogin,
         UserRegister,
         userLogout,
+        UserUpdateProfile,
         resetPassword,
         sendEmail,
         UserUpdate,

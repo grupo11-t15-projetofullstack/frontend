@@ -52,7 +52,7 @@ const BoxAdvertiser = (user) => {
       if (user) {
         setUserData(user); 
       }
-    }, []);
+    }, [user]);
 
   return (
     <div
