@@ -5,8 +5,6 @@ import {
   ResetPasswordData,
   SendEmailResetPasswordData,
 } from "@/schemas/user.schema";
-import { api } from "@/services/api";
-import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 export const UserContext = createContext({} as IUserContext);
@@ -205,7 +203,6 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         UserUpdateProfile,
         resetPassword,
         sendEmail,
-        UserUpdate,
         getOneUser,
         setUserPublications,
         userPublications,
