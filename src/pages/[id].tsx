@@ -17,12 +17,7 @@ interface UserData {
   publications: Publication[];
 }
 
-import BoxAdvertiser from "@/components/advertiser/BoxAdvertiser"
-import Card from "@/components/card"
-import DefaultFooter from "@/components/footer"
-import DefaultHeader from "@/components/header"
-import publicationData from "@/mock/publication"
-import { GetStaticProps, NextPage } from "next"
+
 
 interface PublicationsProps {
   publict: publictData

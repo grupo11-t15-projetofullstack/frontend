@@ -50,7 +50,8 @@ const Card: NextPage<CardProps> = ({ publication }) => {
         </div>
         <h2 className="my-auto" onClick={() => {
           if (publication.user && publication.user.name) {
-            router.push(`/users/${publication.userId}`);
+            router.push(`/users/`);
+            // ${publication.userId}
           }
         }}>
           {publication.user?.name}

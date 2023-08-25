@@ -40,7 +40,7 @@ const BoxAdvertiser = () => {
 
     useEffect(() => {
       if (user) {
-        getOneUser(user.id); // Chame a função getOneUser com o ID do usuário
+        getOneUser(user.id); 
       }
     }, [user]);
 
