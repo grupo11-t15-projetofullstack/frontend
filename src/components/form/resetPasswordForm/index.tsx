@@ -20,9 +20,12 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
   };
 
   return (
-    <div>
-      <p>Recuperação de senha</p>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+    <div className="flex justify-center items-center h-screen bg-gray-200">
+      <form
+        className="bg-white p-8 rounded shadow-md w-full sm:w-96"
+        onSubmit={handleSubmit(onFormSubmit)}
+      >
+        <p className="text-center text-xl mb-4">Recuperação de senha</p>
         <div>
           <label htmlFor="email">Nova senha</label>
           <div>
@@ -44,7 +47,12 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
           </div>
         </div>
         <div>
-          <button type="submit">Atualizar senha</button>
+          <button
+            className="btnEnterLogin w-full mt-4 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300"
+            type="submit"
+          >
+            Atualizar senha
+          </button>
         </div>
       </form>
     </div>
