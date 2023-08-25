@@ -24,10 +24,10 @@ export interface CardProps {
   };
 }
 
-const BoxAdvertiser = () => {
+const BoxAdvertiser = (user) => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-
+  const [userData, setUserData] = useState({user: {name: ""}})
   const toggleProfileModal = () => setIsProfileModalOpen(!isProfileModalOpen);
   const toggleAddressModal = () => setIsAddressModalOpen(!isAddressModalOpen);
   
@@ -35,14 +35,14 @@ const BoxAdvertiser = () => {
 
     const toggleModal = () => setIsOpenModal(!isOpenModal)
 
-    const { user, userPublications, getOneUser } = useContext(UserContext);
+    // const { userPublications, getOneUser } = useContext(UserContext);
 
 
     useEffect(() => {
       if (user) {
-        getOneUser(user.id); 
+        setUserData(user); 
       }
-    }, [user]);
+    }, []);
 
   return (
     <div
@@ -61,7 +61,7 @@ const BoxAdvertiser = () => {
       }}
     >
          <div className="rounded-full w-20 h-20 bg-brands-brand1">
-        <p className="text-center mt-6 text-grey-whiteFixed">SL</p>
+        <p className="text-center mt-6 text-grey-whiteFixed">{ userData.user.name && userData.user.name[0].toUpperCase()}</p>
       </div>
       <div
         style={{
@@ -75,7 +75,7 @@ const BoxAdvertiser = () => {
         flexDirection: 'row', 
         gap: '15px'
       }}>
-        <strong>{user?.name}</strong>
+        <strong>{userData?.user.name}</strong>
         <p style={{
             backgroundColor: '#EDEAFD', 
             color: '#4529E6',
@@ -84,17 +84,18 @@ const BoxAdvertiser = () => {
             Anunciante
             </p>
         </div>
-       
+       <button onClick={()=> console.log(userData.user) }>Console</button>
         <p>
-      {user?.description}
+      {userData?.user.description}
         </p>
         <button style={{border: '2px solid #4529E6', color: '#4529E6', width: '160px', height: '48px', borderRadius: '4px', padding: '12px, 28px, 12px, 28px', font: 'Inter', fontSize: '16px', fontWeight: '600'}}    onClick={toggleModal}>Criar anúncio</button>
         <div style={{ display: 'flex', flexDirection: 'row', gap: '60px' }}>
+
         <button onClick={toggleProfileModal}>Editar perfil</button>
-        {isProfileModalOpen && <ModalProfileEdit toggleModal={toggleProfileModal} />}
+        {isProfileModalOpen && <ModalProfileEdit user={userData.user} toggleModal={toggleProfileModal} />}
 
         <button onClick={toggleAddressModal}>Editar Endereço</button>
-        {isAddressModalOpen && <ModalAddressEdit toggleModal={toggleAddressModal} />}
+        {isAddressModalOpen && <ModalAddressEdit user={userData.user} toggleModal={toggleAddressModal} />}
       </div>
 
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@/components/form/input";
 
-const ModalAddressEdit = ({ toggleModal }) => {
+const ModalAddressEdit = ({ toggleModal, user }) => {
     const [cep, setCep] = React.useState("");
     const [state, setState] = React.useState("");
     const [city, setCity] = React.useState("");

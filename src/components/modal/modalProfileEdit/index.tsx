@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@/components/form/input";
 
-const ModalProfileEdit = ({ toggleModal }) => {
+const ModalProfileEdit = ({ toggleModal, user }) => {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [cpf, setCpf] = React.useState("");
@@ -46,7 +46,7 @@ const ModalProfileEdit = ({ toggleModal }) => {
                     <input
                         type="text"
                         id="name"
-                        value={name}
+                        defaultValue={user.name}
                         onChange={handleNameChange}
                     />
                 </div>
@@ -55,7 +55,7 @@ const ModalProfileEdit = ({ toggleModal }) => {
                     <input
                         type="email"
                         id="email"
-                        value={email}
+                        defaultValue={user.email}
                         onChange={handleEmailChange}
                     />
                 </div>
@@ -64,7 +64,7 @@ const ModalProfileEdit = ({ toggleModal }) => {
                     <input
                         type="text"
                         id="cpf"
-                        value={cpf}
+                        defaultValue={user.cpf}
                         onChange={handleCpfChange}
                     />
                 </div>
@@ -73,7 +73,7 @@ const ModalProfileEdit = ({ toggleModal }) => {
                     <input
                         type="text"
                         id="celular"
-                        value={celular}
+                        defaultValue={user.phone}
                         onChange={handleCelularChange}
                     />
                 </div>
@@ -82,7 +82,7 @@ const ModalProfileEdit = ({ toggleModal }) => {
                     <input
                         type="text"
                         id="dataNascimento"
-                        value={dataNascimento}
+                        defaultValue={user.birth}
                         onChange={handleDataNascimentoChange}
                     />
                 </div>
@@ -91,7 +91,7 @@ const ModalProfileEdit = ({ toggleModal }) => {
                     <input
                         type="text"
                         id="descricao"
-                        value={descricao}
+                        defaultValue={user.description}
                         onChange={handleDescricaoChange}
                     />
                 </div>

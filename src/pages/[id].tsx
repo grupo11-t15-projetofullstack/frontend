@@ -54,7 +54,7 @@ const OwnProfile: NextPage<PublicationsProps> = ({
             zIndex: "1",
           }}
         >
-          <BoxAdvertiser />
+          <BoxAdvertiser user={publict}/>
         </div>
 
         <div
@@ -92,9 +92,9 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<PublicationsProps> = async (ctx) => {
     const id = ctx.params!.id;
-    // const response = await api.get<MusicData>(`/musics/${id}`);
+    const response = await api.get(`/users/${id}`);
 
-    return { props: { publict: id }, revalidate: 60 };
+    return { props: { publict: response.data }, revalidate: 60 };
 };
 
 export default OwnProfile
