@@ -1,13 +1,48 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Modal } from "@/components/modal";
+import ModalProfileEdit from "@/components/modal/modalProfileEdit";
+import ModalAddressEdit from "@/components/modal/modalAddressEdit";
+import { UserContext } from "@/contexts/user";
 
+export interface CardProps {
+  publication: {
+    model: string;
+    make: string;
+    year: number;
+    color: string;
+    fuel: string;
+    isGoodSale: boolean;
+    coverImg: string;
+    distance: number;
+    price: number;
+    description: string;
+    user: {name: string}
+    userId: number;
+    comments: [];
+    images: [];
+  };
+}
 
-const BoxAdvertiser = () => {
-
+const BoxAdvertiser = (user) => {
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [userData, setUserData] = useState({user: {name: ""}})
+  const toggleProfileModal = () => setIsProfileModalOpen(!isProfileModalOpen);
+  const toggleAddressModal = () => setIsAddressModalOpen(!isAddressModalOpen);
+  
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const toggleModal = () => setIsOpenModal(!isOpenModal)
+
+    // const { userPublications, getOneUser } = useContext(UserContext);
+
+
+    useEffect(() => {
+      if (user) {
+        setUserData(user); 
+      }
+    }, []);
 
   return (
     <div
@@ -26,7 +61,7 @@ const BoxAdvertiser = () => {
       }}
     >
          <div className="rounded-full w-20 h-20 bg-brands-brand1">
-        <p className="text-center mt-6 text-grey-whiteFixed">SL</p>
+        <p className="text-center mt-6 text-grey-whiteFixed">{ userData.user.name && userData.user.name[0].toUpperCase()}</p>
       </div>
       <div
         style={{
@@ -40,7 +75,7 @@ const BoxAdvertiser = () => {
         flexDirection: 'row', 
         gap: '15px'
       }}>
-        <strong>Samuel Leão</strong>
+        <strong>{userData?.user.name}</strong>
         <p style={{
             backgroundColor: '#EDEAFD', 
             color: '#4529E6',
@@ -49,13 +84,22 @@ const BoxAdvertiser = () => {
             Anunciante
             </p>
         </div>
-       
+       <button onClick={()=> console.log(userData.user) }>Console</button>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem adipisci minima inventore officia dicta repellat maiores! Iure ad porro laudantium. Est molestiae nesciunt nam eius distinctio esse voluptate debitis libero.
+      {userData?.user.description}
         </p>
         <button style={{border: '2px solid #4529E6', color: '#4529E6', width: '160px', height: '48px', borderRadius: '4px', padding: '12px, 28px, 12px, 28px', font: 'Inter', fontSize: '16px', fontWeight: '600'}}    onClick={toggleModal}>Criar anúncio</button>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '60px' }}>
 
-        {isOpenModal && <Modal toggleModal={toggleModal}></Modal>}
+        <button onClick={toggleProfileModal}>Editar perfil</button>
+        {isProfileModalOpen && <ModalProfileEdit user={userData.user} toggleModal={toggleProfileModal} />}
+
+        <button onClick={toggleAddressModal}>Editar Endereço</button>
+        {isAddressModalOpen && <ModalAddressEdit user={userData.user} toggleModal={toggleAddressModal} />}
+      </div>
+
+
+        {/* {isOpenModal && <Modal toggleModal={toggleModal}></Modal>} */}
       </div>
     </div>
   );
