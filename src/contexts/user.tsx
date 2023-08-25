@@ -1,7 +1,12 @@
 import {api} from "@/services/api";
 import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  ResetPasswordData,
+  SendEmailResetPasswordData,
+} from "@/schemas/user.schema";
+import { api } from "@/services/api";
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 export const UserContext = createContext({} as IUserContext);
@@ -15,7 +20,7 @@ export interface IUser {
   name: string;
   email: string;
   phone: string;
-  addressId?: number;
+  // addressId?: Adresses;
   isSeller: boolean;
   avatar: string;
   description: string;
@@ -44,7 +49,7 @@ export interface IUserOwnPublish {
 }
 
 interface Comment {
-  userId: number
+  userId: number;
 }
 
 interface IUserContext {
@@ -54,6 +59,8 @@ interface IUserContext {
   UserRegister: (formData: IRegister) => Promise<void>;
   userLogout: () => void;
   UserUpdateProfile: (formData: IUpdateProfile, user: {id: number}) => void,
+  sendEmail: (sendEmailResetPasswordData: SendEmailResetPasswordData) => void;
+  resetPassword: (resetPasswordData: ResetPasswordData, token: string) => void;
   UserPublication: (publications: IUserOwnPublish[]) => void;
   getOneUser: (userId: number) => Promise<void>;
   userPublications: IUserOwnPublish[];
@@ -74,7 +81,7 @@ export interface IRegister {
   phone: string;
   birth: string;
   description: string;
-  addressId?: Adresses;
+  // addressId?: Adresses;
   isSeller: boolean;
 }
 
@@ -90,24 +97,57 @@ export interface IUpdateProfile {
 
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [userPublications, setUserPublications] = useState<IUserOwnPublish[]>([]);
-  const Token = typeof window !== 'undefined' ? localStorage.getItem("@Token") : null;
-  const userID =  typeof window !== 'undefined' ? localStorage.getItem("@USERID") : null; ;
+  const [userPublications, setUserPublications] = useState<IUserOwnPublish[]>(
+    []
+  );
+  // const Token = localStorage.getItem("@Token")!;
+  // const userID = localStorage.getItem("@USERID");
   const router = useRouter();
 
   const UserLogin = async (formData: ILogin) => {
     try {
       const response = await api.post<any>("/login", formData);
-      localStorage.setItem("@Token", response.data.accessToken);
-      localStorage.setItem("@USERID", response.data.user.id);
-      localStorage.setItem("@USERNAME", response.data.user.name);
-      setUser(response.data.user);
+      localStorage.setItem("@Token", response.data.token);
       toast.success("Login Realizado com sucesso!");
       router.push("/");
     } catch (error) {
       toast.error("Email ou senha invalido");
     }
   };
+
+  const sendEmail = (
+    sendEmailResetPasswordData: SendEmailResetPasswordData
+  ) => {
+    api
+      .post("users/resetPassword", sendEmailResetPasswordData)
+      .then(() => {
+        toast.success("E-mail enviado com sucesso!");
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Erro ao enviar o e-mail, tente novamente mais tarde");
+      });
+  };
+
+  const resetPassword = (
+    resetPasswordData: ResetPasswordData,
+    token: string
+  ) => {
+    api
+      .patch(`users/resetPassword/${token}`, {
+        password: resetPasswordData.password,
+      })
+      .then(() => {
+        toast.success("Senha atualizada com sucesso");
+        router.push("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Erro ao atualizar a senha");
+      });
+  };
+
   const UserRegister = async (formData: IRegister) => {
     try {
       const response = api.post("/users", formData);
@@ -121,9 +161,9 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
 
   const UserUpdateProfile = async (formData: IUpdateProfile, user: { id: number }) => {
     try {
-      console.log(api); // Check the contents of your 'api' object
+      console.log(api); 
       const endpoint = `/users/${user.id}`;
-      console.log('Endpoint:', endpoint); // Verify the endpoint URL
+      console.log('Endpoint:', endpoint); 
       
       const response = await api.patch(endpoint, formData);
       console.log(response.data);
@@ -151,7 +191,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     localStorage.removeItem("@USERNAME");
     localStorage.removeItem("@USERID");
     toast.success("Logout Realizado com sucesso!");
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -163,9 +203,12 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         UserRegister,
         userLogout,
         UserUpdateProfile,
+        resetPassword,
+        sendEmail,
+        UserUpdate,
         getOneUser,
         setUserPublications,
-        userPublications
+        userPublications,
       }}
     >
       {children}
