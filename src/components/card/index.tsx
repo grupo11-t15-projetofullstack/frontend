@@ -1,6 +1,6 @@
-import { NextPage } from "next";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import { NextPage } from "next"
+import Image from "next/image"
+import { useRouter } from "next/router"
 
 export interface CardProps {
   publication: {
@@ -22,17 +22,31 @@ export interface CardProps {
 }
 
 const Card: NextPage<CardProps> = ({ publication }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
-    <div className="relative flex flex-col gap-3">
-      {/* <Image alt="Cover image" src={publication.coverImg} className="w-full h-32 bg-grey-grey7" width={12} height={10}/> */}
-      <p className="absolute font-medium text-sm leading-4 bg-random-random7 text-grey-whiteFixed p-1 top-px right-px rounded-sm">$</p>
-      <h1 className="font-semibold text-base leading-5">{publication.make} - {publication.model}</h1>
-      <p className="text-sm h-12 font-normal leading-6">{publication.description}</p>
+    <div className="relative flex flex-col gap-3 ml-">
+      <Image
+        alt="Cover image"
+        src={publication.coverImg}
+        className="w-full h-32 bg-grey-grey7"
+        width={12}
+        height={10}
+      />
+      <p className="absolute font-medium text-sm leading-4 bg-random-random7 text-grey-whiteFixed p-1 top-px right-px rounded-sm">
+        $
+      </p>
+      <h1 className="font-semibold text-base leading-5">
+        {publication.make} - {publication.model}
+      </h1>
+      <p className="text-sm h-12 font-normal leading-6">
+        {publication.description}
+      </p>
       <div className="flex flex-row self-start gap-4 mt-1">
         <div className="rounded-full w-10 h-10 bg-brands-brand1 ">
-          <p className="text-center mt-2 text-grey-whiteFixed">{publication.userId}</p>
+          <p className="text-center mt-2 text-grey-whiteFixed">
+            {publication.user.name.charAt(0).toUpperCase()}
+          </p>
         </div>
         <h2 className="my-auto" onClick={() => {
           if (publication.user && publication.user.name) {
@@ -51,10 +65,12 @@ const Card: NextPage<CardProps> = ({ publication }) => {
             {publication.year}
           </p>
         </div>
-        <p className="font-medium leading-7 text-base">R$ {publication.price.toFixed(2)}</p>
+        <p className="font-medium leading-7 text-base">
+          R$ {publication.price.toFixed(2)}
+        </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Card;
+export default Card

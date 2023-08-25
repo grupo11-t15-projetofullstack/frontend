@@ -24,7 +24,6 @@ export const publishSchemaRequest = publishSchema.omit({
   createdAt: true,
   isGoodSell: true,
   userId: true,
-  images: true,
 })
 
 export type PublishRequest = z.infer<typeof publishSchemaRequest>
