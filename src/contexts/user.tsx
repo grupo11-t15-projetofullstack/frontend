@@ -4,7 +4,7 @@ import {
 } from "@/schemas/user.schema";
 import { api } from "@/services/api";
 import { useRouter } from "next/router";
-import React, { createContext, useState } from "react";
+import React, { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export const UserContext = createContext({} as IUserContext);
@@ -25,6 +25,30 @@ export interface IUser {
   cpf: string;
   birth: string;
 }
+export interface IUserOwnPublish {
+  id: number;
+  model: string;
+  make: string;
+  year: number;
+  color: string;
+  fuel: string;
+  isGoodSale: boolean;
+  coverImg: string;
+  distance: number;
+  price: number;
+  createdAt: string;
+  description: string;
+  comments: Comment[];
+  images: string[];
+  _count: {
+    comments: number;
+    images: number;
+  };
+}
+
+interface Comment {
+  userId: number
+}
 
 interface IUserContext {
   user: IUser | null;
@@ -34,6 +58,11 @@ interface IUserContext {
   userLogout: () => void;
   sendEmail: (sendEmailResetPasswordData: SendEmailResetPasswordData) => void;
   resetPassword: (resetPasswordData: ResetPasswordData, token: string) => void;
+  UserUpdate: (formData: IUpdateProfile) => Promise<void>,
+  UserPublication: (publications: IUserOwnPublish[]) => void;
+  getOneUser: (userId: number) => Promise<void>;
+  userPublications: IUserOwnPublish[];
+  setUserPublications: Dispatch<SetStateAction<IUserOwnPublish[]>>;
 }
 
 export interface ILogin {
@@ -54,12 +83,23 @@ export interface IRegister {
   isSeller: boolean;
 }
 
+export interface IUpdateProfile {
+  email: string;
+  password: string;
+  name: string;
+  confirmPassword: string;
+  cpf: string;
+  phone: string;
+  birth: string;
+  description: string;
+}
+
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
   // const Token = localStorage.getItem("@Token")!;
   // const userID = localStorage.getItem("@USERID");
   const router = useRouter();
-
+  
   const UserLogin = async (formData: ILogin) => {
     try {
       const response = await api.post<any>("/login", formData);
@@ -115,6 +155,25 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     }
   };
 
+  const UserUpdate = async (formData: IUpdateProfile) => {
+    try {
+      const response = api.patch("/users", formData);
+      setUser((await response).data.user)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getOneUser = async (userId: number) => {
+    try {
+      const response = await api.get(`/users/${userId}`);
+      const userData = response.data;
+      setUserPublications(userData.publications);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const userLogout = () => {
     setUser(null);
     localStorage.removeItem("@Token");
@@ -135,6 +194,10 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         userLogout,
         resetPassword,
         sendEmail,
+        UserUpdate,
+        getOneUser,
+        setUserPublications,
+        userPublications
       }}
     >
       {children}

@@ -1,40 +1,50 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, Dispatch, SetStateAction } from "react"
 import Slider from "@mui/material/Slider"
+import { Publication } from "@/pages"
 
 interface FilterProps {
-  repo: any
+  repo: Publication[]
+  setFilteredCards: Dispatch<SetStateAction<Publication[]>>
 }
 
-interface Model {
-  name: string[]
+function removeDuplicates(arr: string[]) {
+  return arr.filter((item, index) => arr.indexOf(item) === index)
 }
 
-export const Select = ({ repo }: FilterProps) => {
-  const [kilometers, setKilometers] = useState(0)
-  const [makerList, setMakerList] = useState<string[]>([])
-  const [modelList, setModelList] = useState<Model[]>([])
+export const Select = ({ repo, setFilteredCards }: FilterProps) => {
+  const [valueKm, setValueKm] = React.useState<number[]>([0, 650000])
+  const [valuePrice, setValuePrice] = React.useState<number[]>([0, 1000000])
+  const [makers, setMakers] = useState<string[]>([])
+  const [models, setModels] = useState<string[]>([])
+
+  const addRepo = () => {
+    repo.map((item: Publication) => {
+      makers.push(item.make)
+    })
+
+    repo.map((item: Publication) => {
+      models.push(item.model)
+    })
+
+    const uniqueArrMaker = removeDuplicates(makers)
+    const uniqueArrModel = removeDuplicates(models)
+    setMakers(uniqueArrMaker)
+    setModels(uniqueArrModel)
+  }
 
   useEffect(() => {
-    repo.map((item: { name: string }) =>
-      setMakerList([...makerList, item.name])
-    )
-  }, [makerList, repo])
+    addRepo()
+  }, [repo])
 
-  const [valueKm, setValueKm] = React.useState<number[]>([0, 650000])
+  const handleChangeModel = async (e: any, maker: string) => {
+    const models = repo.filter((item: Publication) => item.make == maker)
+    setFilteredCards(models)
+    setMakers([maker])
+  }
 
   const handleChangeKm = (event: Event, newValue: number | number[]) => {
     setValueKm(newValue as number[])
   }
-
-  const handleChangeModel = async (e: any) => {
-    const maker = e.target.value
-
-    const value = repo[maker]
-
-    setModelList(value)
-  }
-
-  const [valuePrice, setValuePrice] = React.useState<number[]>([0, 1000000])
 
   const handleChangePrice = (event: Event, newValue: number | number[]) => {
     setValuePrice(newValue as number[])
@@ -47,19 +57,20 @@ export const Select = ({ repo }: FilterProps) => {
           width: "100%",
           maxWidth: "300px",
           display: "flex",
-          alignItems: "center",
+
           marginLeft: "15px",
         }}
       >
-        <form style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {/* <button onClick={() => console.log(makers)}>CONSOLE</button> */}
+        <form className="flex flex-col gap-2">
           <div>
             <label className="font-semibold text-2xl mb-2">Marca</label>
             <ul>
-              {makerList?.map((maker, index) => (
+              {makers?.map((maker, index) => (
                 <li
                   key={index}
                   className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
-                  onClick={(e) => handleChangeModel(e)}
+                  onClick={(e) => handleChangeModel(e, maker)}
                 >
                   {maker}
                 </li>
@@ -69,6 +80,17 @@ export const Select = ({ repo }: FilterProps) => {
 
           <div>
             <label className="font-semibold text-2xl mb-2">Modelo</label>
+            <ul>
+              {models?.map((model, index) => (
+                <li
+                  key={index}
+                  className="ml-3 text-xl font-medium text-grey-grey3 cursor-pointer"
+                  // onClick={(e) => handleChangeModel(e)}
+                >
+                  {model}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
@@ -199,7 +221,14 @@ export const Select = ({ repo }: FilterProps) => {
             </p>
           </div>
 
-          <button className="border bg-brands-brand2 text-grey-whiteFixed p-2 mt-4">
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              setFilteredCards([])
+              addRepo()
+            }}
+            className="border w-[200px] bg-brands-brand2 text-grey-whiteFixed p-2 mt-4"
+          >
             Limpar filtros
           </button>
         </form>
