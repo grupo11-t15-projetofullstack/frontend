@@ -1,4 +1,5 @@
 import api from "@/services/api";
+import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -91,9 +92,9 @@ export interface IUpdateProfile {
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [userPublications, setUserPublications] = useState<IUserOwnPublish[]>([]);
-  const Token = localStorage.getItem("@Token")!;
-  const userID = localStorage.getItem("@USERID");
-  const navigate = useNavigate();
+  const Token = typeof window !== 'undefined' ? localStorage.getItem("@Token") : null;
+  const userID =  typeof window !== 'undefined' ? localStorage.getItem("@USERID") : null; ;
+  const router = useRouter();
 
   const UserLogin = async (formData: ILogin) => {
     try {
@@ -103,7 +104,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
       localStorage.setItem("@USERNAME", response.data.user.name);
       setUser(response.data.user);
       toast.success("Login Realizado com sucesso!");
-      navigate("/dashboard");
+      router.push("/");
     } catch (error) {
       toast.error("Email ou senha invalido");
     }
@@ -113,7 +114,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
       const response = api.post("/users", formData);
       setUser((await response).data.user);
       toast.success("Registro feito com sucesso!");
-      navigate("/");
+      router.push("/");
     } catch (error) {
       toast.error("Usúario já cadastrado");
     }
