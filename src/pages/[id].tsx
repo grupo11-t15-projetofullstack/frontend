@@ -1,9 +1,23 @@
-import BoxAdvertiser from "@/components/advertiser/BoxAdvertiser"
-import Card from "@/components/card"
-import DefaultFooter from "@/components/footer"
-import DefaultHeader from "@/components/header"
-import publicationData from "@/mock/publication"
-import { GetStaticProps, NextPage } from "next"
+import BoxAdvertiser from "@/components/advertiser/BoxAdvertiser";
+import Card from "@/components/card";
+import DefaultFooter from "@/components/footer";
+import DefaultHeader from "@/components/header";
+import publicationData from "@/mock/publication";
+import { publictData } from "@/schemas/music.schema";
+import { api } from "@/services/api";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+
+interface UserProfileProps {
+  user: UserData;
+}
+
+interface UserData {
+  id: number;
+  name: string;
+  publications: Publication[];
+}
+
+
 
 interface PublicationsProps {
   publict: publictData
@@ -40,7 +54,7 @@ const OwnProfile: NextPage<PublicationsProps> = ({
             zIndex: "1",
           }}
         >
-          <BoxAdvertiser />
+          <BoxAdvertiser user={publict}/>
         </div>
 
         <div
@@ -70,19 +84,17 @@ const OwnProfile: NextPage<PublicationsProps> = ({
 }
 
 export const getStaticPaths = async () => {
-  return {
-    paths: [{ params: { id: "95ad2591-1d59-4bed-9618-42c49f25a73c" } }],
-    fallback: "blocking",
-  }
-}
+    return {
+        paths: [{ params: { id: "95ad2591-1d59-4bed-9618-42c49f25a73c" } }],
+        fallback: "blocking"
+    };
+};
 
-export const getStaticProps: GetStaticProps<PublicationsProps> = async (
-  ctx
-) => {
-  const id = ctx.params!.id
-  // const response = await api.get<MusicData>(`/musics/${id}`);
+export const getStaticProps: GetStaticProps<PublicationsProps> = async (ctx) => {
+    const id = ctx.params!.id;
+    const response = await api.get(`/users/${id}`);
 
-  return { props: { publict: id }, revalidate: 60 }
-}
+    return { props: { publict: response.data }, revalidate: 60 };
+};
 
 export default OwnProfile

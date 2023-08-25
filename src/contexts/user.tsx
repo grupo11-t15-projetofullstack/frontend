@@ -1,5 +1,5 @@
 import api from "@/services/api";
-import React, { createContext, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -14,12 +14,36 @@ export interface IUser {
   name: string;
   email: string;
   phone: string;
-  addressId?: Adresses;
+  addressId?: number;
   isSeller: boolean;
   avatar: string;
   description: string;
   cpf: string;
   birth: string;
+}
+export interface IUserOwnPublish {
+  id: number;
+  model: string;
+  make: string;
+  year: number;
+  color: string;
+  fuel: string;
+  isGoodSale: boolean;
+  coverImg: string;
+  distance: number;
+  price: number;
+  createdAt: string;
+  description: string;
+  comments: Comment[];
+  images: string[];
+  _count: {
+    comments: number;
+    images: number;
+  };
+}
+
+interface Comment {
+  userId: number
 }
 
 interface IUserContext {
@@ -28,6 +52,11 @@ interface IUserContext {
   UserLogin: (formData: ILogin) => Promise<void>;
   UserRegister: (formData: IRegister) => Promise<void>;
   userLogout: () => void;
+  UserUpdate: (formData: IUpdateProfile) => Promise<void>,
+  UserPublication: (publications: IUserOwnPublish[]) => void;
+  getOneUser: (userId: number) => Promise<void>;
+  userPublications: IUserOwnPublish[];
+  setUserPublications: Dispatch<SetStateAction<IUserOwnPublish[]>>;
 }
 
 export interface ILogin {
@@ -48,8 +77,20 @@ export interface IRegister {
   isSeller: boolean;
 }
 
+export interface IUpdateProfile {
+  email: string;
+  password: string;
+  name: string;
+  confirmPassword: string;
+  cpf: string;
+  phone: string;
+  birth: string;
+  description: string;
+}
+
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [userPublications, setUserPublications] = useState<IUserOwnPublish[]>([]);
   const Token = localStorage.getItem("@Token")!;
   const userID = localStorage.getItem("@USERID");
   const navigate = useNavigate();
@@ -78,6 +119,25 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     }
   };
 
+  const UserUpdate = async (formData: IUpdateProfile) => {
+    try {
+      const response = api.patch("/users", formData);
+      setUser((await response).data.user)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getOneUser = async (userId: number) => {
+    try {
+      const response = await api.get(`/users/${userId}`);
+      const userData = response.data;
+      setUserPublications(userData.publications);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const userLogout = () => {
     setUser(null);
     localStorage.removeItem("@Token");
@@ -96,6 +156,10 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         UserLogin,
         UserRegister,
         userLogout,
+        UserUpdate,
+        getOneUser,
+        setUserPublications,
+        userPublications
       }}
     >
       {children}

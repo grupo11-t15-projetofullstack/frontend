@@ -2,6 +2,7 @@ import { Publication } from "@/pages"
 import Image from "next/image"
 import { useRouter } from "next/router"
 
+
 interface CardProps {
   publication: Publication
 }
