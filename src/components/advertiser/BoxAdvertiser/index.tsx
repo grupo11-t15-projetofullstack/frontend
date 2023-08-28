@@ -84,7 +84,7 @@ const BoxAdvertiser = (user) => {
             Anunciante
           </p>
         </div>
-       <button onClick={()=> console.log(userData.user) }>Console</button>
+       
         <p>
       {userData?.user.description}
         </p>

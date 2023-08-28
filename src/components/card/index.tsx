@@ -18,6 +18,7 @@ const Card = ({ publication }: CardProps) => {
         className="w-full h-32 bg-grey-grey7"
         width={12}
         height={10}
+        onClick={() => router.push(`/publication/${publication.id}`)}
       />
       <p className="absolute font-medium text-sm leading-4 bg-random-random7 text-grey-whiteFixed p-1 top-px right-px rounded-sm">
         $
