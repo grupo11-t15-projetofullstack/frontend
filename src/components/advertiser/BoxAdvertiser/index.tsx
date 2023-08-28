@@ -27,7 +27,7 @@ export interface CardProps {
 const BoxAdvertiser = (user) => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-  const [userData, setUserData] = useState({user: {name: ""}})
+  const [userData, setUserData] = useState({user: {name: "", address:{}}, })
   const toggleProfileModal = () => setIsProfileModalOpen(!isProfileModalOpen);
   const toggleAddressModal = () => setIsAddressModalOpen(!isAddressModalOpen);
   
@@ -95,7 +95,7 @@ const BoxAdvertiser = (user) => {
         {isProfileModalOpen && <ModalProfileEdit user={userData.user} toggleModal={toggleProfileModal} />}
 
         <button onClick={toggleAddressModal}>Editar Endereço</button>
-        {isAddressModalOpen && <ModalAddressEdit user={userData.user} toggleModal={toggleAddressModal} />}
+        {isAddressModalOpen && <ModalAddressEdit user={userData.user.name} address={userData.user.address} toggleModal={toggleAddressModal} />}
       </div>
 
 

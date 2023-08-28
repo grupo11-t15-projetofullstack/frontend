@@ -94,6 +94,9 @@ export const getStaticProps: GetStaticProps<PublicationsProps> = async (ctx) => 
     const id = ctx.params!.id;
     const response = await api.get(`/users/${id}`);
 
+    // const idAddress = ctx.params!.id
+    // const responseAddress = await api.patch(`/addresses/${idAddress}`)
+
     return { props: { publict: response.data }, revalidate: 60 };
 };
 
