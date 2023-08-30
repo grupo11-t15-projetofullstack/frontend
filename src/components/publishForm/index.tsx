@@ -38,7 +38,8 @@ interface CarsInfo {
 }
 
 export const PublishForm = ({ toggleModal, repo }: FormProps) => {
-  const { createPublish, publishInfo, setPublishInfo } = usePublish()
+  const { createPublish, publishInfo, setPublishInfo, setPriceFipe } =
+    usePublish()
   const [makerList, setMakerList] = useState<string[]>([])
   const [models, setModels] = useState<Model[]>([])
   const [carsInfo, setCarsInfo] = useState<CarsInfo[]>([])
@@ -213,6 +214,7 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
               disabled
               value={`R$ ${carInfo.fipe.toFixed(2).replace(".", ",")}`}
               placeholder="48000,00"
+              onChange={(e) => setPriceFipe(Number(e.target.value))}
               className="w-38 p-2 border rounded mt-1 border-grey-grey7"
             />
           </div>

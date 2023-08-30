@@ -66,12 +66,12 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
             )}
           </div>
         </main>
-        <button onClick={toggleModal}>Modal</button>
+        {/* <button onClick={toggleModal}>Modal</button>
         {isOpenModal && (
           <Modal toggleModal={toggleModal}>
             <PublishForm toggleModal={toggleModal} repo={publications} />
           </Modal>
-        )}
+        )} */}
 
         <DefaultFooter />
       </div>

@@ -34,6 +34,7 @@ interface PublishProviderData {
   getAllPublish: (data: IgetAllPublishProps) => Promise<void>
   setPublish: Dispatch<SetStateAction<IPublish[]>>
   publish: IPublish[]
+  setPriceFipe: Dispatch<SetStateAction<number>>
 }
 
 interface IPublish {
@@ -58,6 +59,7 @@ const PublishContext = createContext<PublishProviderData>(
 
 export function PublishProvider({ children }: Props) {
   const [publish, setPublish] = useState<IPublish[]>([])
+  const [priceFipe, setPriceFipe] = useState<number>(0)
 
   const [publishInfo, setPublishInfo] = useState({
     model: "",
@@ -67,6 +69,7 @@ export function PublishProvider({ children }: Props) {
     fuel: "",
     distance: 0,
     price: 0,
+    isGoodSell: false,
     userId: "",
     description: "",
     coverImg: "",
@@ -91,11 +94,19 @@ export function PublishProvider({ children }: Props) {
   ) => {
     e.preventDefault()
     publishInfo.year = Number(carInfo.year)
+
     publishInfo.fuel =
       carInfo.fuel == 1 ? "Flex" : carInfo.fuel == 2 ? "Híbrido" : "Elétrico"
 
     publishInfo.images = Object.values(images)
-    console.log(publishInfo)
+
+    const goodSale =
+      priceFipe >= publishInfo.price - (publishInfo.price / 100) * 5
+
+    if (goodSale) {
+      publishInfo.isGoodSell = true
+    }
+
     // try {
     //   const response = await api.post("/publications", publishInfo)
     // } catch (error: any) {
@@ -123,6 +134,7 @@ export function PublishProvider({ children }: Props) {
         setImages,
         createPublish,
         setPublishInfo,
+        setPriceFipe,
       }}
     >
       {children}
