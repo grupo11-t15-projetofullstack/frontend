@@ -59,8 +59,6 @@ const PublishContext = createContext<PublishProviderData>(
 export function PublishProvider({ children }: Props) {
   const [publish, setPublish] = useState<IPublish[]>([])
 
-
-
   const [publishInfo, setPublishInfo] = useState({
     model: "",
     make: "",
@@ -92,17 +90,17 @@ export function PublishProvider({ children }: Props) {
     carInfo: CarInfo
   ) => {
     e.preventDefault()
-    console.log(images)
     publishInfo.year = Number(carInfo.year)
     publishInfo.fuel =
       carInfo.fuel == 1 ? "Flex" : carInfo.fuel == 2 ? "Híbrido" : "Elétrico"
 
+    publishInfo.images = Object.values(images)
+    console.log(publishInfo)
     // try {
     //   const response = await api.post("/publications", publishInfo)
     // } catch (error: any) {
     //   console.log(error.message)
     // }
-    console.log(publishInfo)
   }
 
   const getAllPublish = async (data: IgetAllPublishProps) => {

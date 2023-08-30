@@ -7,7 +7,7 @@ import { Select } from "@/components/select"
 import { api } from "@/services/api"
 import { GetServerSideProps, NextPage } from "next"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import bannerHome from "../assets/bannerHome.svg"
 
 interface HomeProps {
@@ -37,6 +37,11 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const [filteredCards, setFilteredCards] = useState<Publication[]>([])
   const toggleModal = () => setIsOpenModal(!isOpenModal)
+
+  useEffect(() => {
+    setFilteredCards(publications)
+  }, [publications])
+
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -46,19 +51,27 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
         </div>
 
         <main className="flex align-middle pl-32 mb-20">
-          <Select repo={publications} setFilteredCards={setFilteredCards} />
+          <Select
+            repo={publications}
+            setFilteredCards={setFilteredCards}
+            filteredCards={filteredCards}
+          />
           <div className="grid grid-cols-3 gap-10 ml-40">
-            {filteredCards.length > 0
-              ? filteredCards.map((publication, index) => (
-                  <Card key={index} publication={publication} />
-                ))
-              : publications.map((publication, index) => (
-                  <Card key={index} publication={publication} />
-                ))}
-
-            {/* <button onClick={() => console.log(publications)}>CONSOLE</button> */}
+            {filteredCards.length > 0 ? (
+              filteredCards.map((publication, index) => (
+                <Card key={index} publication={publication} />
+              ))
+            ) : (
+              <h1>Nenhum veículo encontrado</h1>
+            )}
           </div>
         </main>
+        <button onClick={toggleModal}>Modal</button>
+        {isOpenModal && (
+          <Modal toggleModal={toggleModal}>
+            <PublishForm toggleModal={toggleModal} repo={publications} />
+          </Modal>
+        )}
 
         <DefaultFooter />
       </div>
