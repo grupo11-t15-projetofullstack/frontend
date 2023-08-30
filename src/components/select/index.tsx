@@ -111,6 +111,7 @@ export const Select = ({
   ) => {
     const filtered = filteredCards.filter((car) => car.model == model)
     setFilteredCards(filtered)
+    setSecondList(filtered)
     setModels([model])
 
     makers.length = 0
@@ -144,6 +145,7 @@ export const Select = ({
   ) => {
     const filtered = filteredCards.filter((car) => car.color == color)
     setFilteredCards(filtered)
+    setSecondList(filtered)
     setColors([color])
 
     makers.length = 0
@@ -177,6 +179,7 @@ export const Select = ({
   ) => {
     const filtered = filteredCards.filter((car) => car.year == Number(year))
     setFilteredCards(filtered)
+    setSecondList(filtered)
     setYears([year])
 
     makers.length = 0
@@ -210,6 +213,7 @@ export const Select = ({
   ) => {
     const filtered = filteredCards.filter((car) => car.fuel == fuel)
     setFilteredCards(filtered)
+    setSecondList(filtered)
     setFuels([fuel])
 
     makers.length = 0
