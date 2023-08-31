@@ -17,6 +17,7 @@ const Card = ({ publication }: CardProps) => {
         className="w-full h-32 bg-grey-grey7"
         width={12}
         height={10}
+        onClick={() => router.push(`/publication/${publication.id}`)}
       />
 
       {publication.isGoodSale && (

@@ -38,7 +38,7 @@ interface CarsInfo {
   value: number
 }
 
-export const PublishForm = ({ toggleModal, repo }: FormProps) => {
+export const PublishForm = ({ toggleModal }: FormProps) => {
   const { createPublish, publishInfo, setPublishInfo, setPriceFipe } =
     usePublish()
   const [makerList, setMakerList] = useState<string[]>([])
@@ -49,11 +49,19 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
     fipe: 0,
     fuel: 0,
   })
+  const [repo, setRepo] = useState({})
 
   useEffect(() => {
-    const makers = Object.keys(repo)
-    setMakerList(makers)
-  }, [repo])
+    const kenzieApi = async () => {
+      const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
+      const repoData = await res.json()
+      const makers = Object.keys(repoData)
+      setMakerList(makers)
+      console.log(repoData['chevrolet']) 
+      setRepo(repoData)
+    }
+    kenzieApi()
+  }, [])
 
   const handleChangeModel = async (e: ChangeEvent<HTMLSelectElement>) => {
     const maker = e.target.value

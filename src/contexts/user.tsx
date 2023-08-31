@@ -24,7 +24,7 @@ export interface Addresses {
 }
 
 export interface IUser {
-  id: number;
+  id: number ;
   name: string;
   email: string;
   phone: string;
@@ -117,6 +117,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     try {
       const response = await api.post<any>("/login", formData);
       localStorage.setItem("@Token", response.data.token);
+      console.log("%%%%%%%%%%%%%%%%%%%", localStorage.setItem("@Token", response.data.token))
       toast.success("Login Realizado com sucesso!");
       router.push("/");
     } catch (error) {
@@ -183,10 +184,11 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     }
   };
 
-  const getOneUser = async (userId: number) => {
+  const getOneUser = async (id: number) => {
     try {
-      const response = await api.get(`/users/${userId}`);
+      const response = await api.get(`/users/${id}`);
       const userData = response.data;
+      console.log('$$$$$$$$$$$$$$$$$$$$$',userData)
       setUserPublications(userData.publications);
     } catch (error) {
       console.error(error);

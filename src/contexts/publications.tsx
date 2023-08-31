@@ -69,7 +69,7 @@ export function PublishProvider({ children }: Props) {
     fuel: "",
     distance: 0,
     price: 0,
-    isGoodSell: false,
+    isGoodSale: false,
     description: "",
     coverImg: "",
     images: [""],
@@ -103,17 +103,19 @@ export function PublishProvider({ children }: Props) {
 
     console.log(goodSale)
 
-    if (goodSale) {
-      publishInfo.isGoodSell = true
-    } else {
-      publishInfo.isGoodSell = false
+    publishInfo.isGoodSale = goodSale
+    console.log('%$$$$$$$$$$$$$$$',publishInfo)
+
+    const token = localStorage.getItem('@Token')
+    const headers = {"Authorization": `Bearer ${token}`}
+    try {
+      const response = await api.post("/publications", publishInfo, {headers})
+
+    } catch (error: any) {
+      console.log(error.message)
     }
 
-    // try {
-    //   const response = await api.post("/publications", publishInfo)
-    // } catch (error: any) {
-    //   console.log(error.message)
-    // }
+
   }
 
   const getAllPublish = async (data: IgetAllPublishProps) => {

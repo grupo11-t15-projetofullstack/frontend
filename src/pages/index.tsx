@@ -11,7 +11,8 @@ import { useEffect, useState } from "react"
 import bannerHome from "../assets/bannerHome.svg"
 
 interface HomeProps {
-  publications: Publication[]
+  publications: Publication[],
+  repo: any
 }
 
 export interface Publication {
@@ -33,7 +34,7 @@ export interface Publication {
   description: string
 }
 
-const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
+const Home: NextPage<HomeProps> = ({ publications, repo }: HomeProps) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const [filteredCards, setFilteredCards] = useState<Publication[]>([])
   const toggleModal = () => setIsOpenModal(!isOpenModal)
@@ -66,12 +67,12 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
             )}
           </div>
         </main>
-        {/* <button onClick={toggleModal}>Modal</button>
+        <button onClick={toggleModal}>Modal</button>
         {isOpenModal && (
           <Modal toggleModal={toggleModal}>
-            <PublishForm toggleModal={toggleModal} repo={publications} />
+            <PublishForm toggleModal={toggleModal} repo={repo} />
           </Modal>
-        )} */}
+        )}
 
         <DefaultFooter />
       </div>
@@ -84,9 +85,14 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
     const response = await api.get("/publications")
     const publications: Publication[] = response.data
 
+    const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
+    const repo = await res.json()
+  
     return {
       props: {
         publications,
+        repo
+        
       },
     }
   } catch (error) {
@@ -97,6 +103,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
       },
     }
   }
+  
 }
 
 export default Home
