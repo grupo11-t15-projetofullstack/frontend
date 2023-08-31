@@ -1,6 +1,7 @@
 import { usePublish } from "@/contexts/publications"
 import { ImageForm } from "../ImageForm"
 import { useState, useEffect, ChangeEvent } from "react"
+import { GetServerSideProps } from "next"
 
 interface FormProps {
   toggleModal: () => void
@@ -72,7 +73,7 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
 
   const handleChangeCarInfo = (e: ChangeEvent<HTMLSelectElement>) => {
     const car = carsInfo.filter((car) => car.name == e.target.value)
-
+    setPriceFipe(car[0].value)
     setCarInfo({
       year: car[0].year,
       fuel: car[0].fuel,
@@ -214,7 +215,6 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
               disabled
               value={`R$ ${carInfo.fipe.toFixed(2).replace(".", ",")}`}
               placeholder="48000,00"
-              onChange={(e) => setPriceFipe(Number(e.target.value))}
               className="w-38 p-2 border rounded mt-1 border-grey-grey7"
             />
           </div>
@@ -282,4 +282,13 @@ export const PublishForm = ({ toggleModal, repo }: FormProps) => {
       </div>
     </form>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
+  const repo = await res.json()
+
+  return {
+    props: { repo },
+  }
 }

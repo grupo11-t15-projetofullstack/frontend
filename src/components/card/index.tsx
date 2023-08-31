@@ -2,7 +2,6 @@ import { Publication } from "@/pages"
 import Image from "next/image"
 import { useRouter } from "next/router"
 
-
 interface CardProps {
   publication: Publication
 }
@@ -19,9 +18,13 @@ const Card = ({ publication }: CardProps) => {
         width={12}
         height={10}
       />
-      <p className="absolute font-medium text-sm leading-4 bg-random-random7 text-grey-whiteFixed p-1 top-px right-px rounded-sm">
-        $
-      </p>
+
+      {publication.isGoodSale && (
+        <p className="absolute font-medium text-sm leading-4 bg-random-random7 text-grey-whiteFixed p-1 top-px right-px rounded-sm">
+          $
+        </p>
+      )}
+
       <h1 className="font-semibold text-base leading-5">
         {publication.make} - {publication.model}
       </h1>
