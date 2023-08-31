@@ -69,7 +69,7 @@ export function PublishProvider({ children }: Props) {
     fuel: "",
     distance: 0,
     price: 0,
-    isGoodSell: false,
+    isGoodSale: false,
     description: "",
     coverImg: "",
     images: [""],
@@ -103,11 +103,7 @@ export function PublishProvider({ children }: Props) {
 
     console.log(goodSale)
 
-    if (goodSale) {
-      publishInfo.isGoodSell = true
-    } else {
-      publishInfo.isGoodSell = false
-    }
+    publishInfo.isGoodSale = goodSale
     console.log('%$$$$$$$$$$$$$$$',publishInfo)
 
     const token = localStorage.getItem('@Token')
