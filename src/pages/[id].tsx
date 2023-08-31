@@ -26,6 +26,7 @@ interface PublicationsProps {
 const OwnProfile: NextPage<PublicationsProps> = ({
   publict,
 }: PublicationsProps) => {
+  const { publications } = publict;
   return (
     <div className="flex flex-col min-h-screen">
       <header>
@@ -71,9 +72,9 @@ const OwnProfile: NextPage<PublicationsProps> = ({
             marginBottom: "60px",
           }}
         >
-          {/* {publicationData.map((publication, index) => (
-            <Card key={index} publication={publication} />
-          ))} */}
+      {publications.map((publication, index) => (
+          <Card key={index} publication={publication} />
+        ))}
         </div>
       </div>
       <footer className="mt-auto">

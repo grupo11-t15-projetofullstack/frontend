@@ -9,6 +9,7 @@ import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import { BoxPublication } from "@/components/PagerPublication/InfoPublication";
 import { CommentBox } from "@/components/PagerPublication/commentBox";
 import { mockCommentsData } from "@/mock/comments";
+import { BoxInfoUser } from "@/components/PagerPublication/infoUser";
 
 
 interface HomeProps {
@@ -35,7 +36,7 @@ export interface Publication {
   comments: [{}]
 }
 
-const Publication: NextPage<HomeProps> = ({ publications }: HomeProps) => {
+const Publication: NextPage<HomeProps> = ({ publications, publict }: HomeProps) => {
   return (
     <div className="flex flex-col min-h-screen">
       <header>
@@ -54,6 +55,15 @@ const Publication: NextPage<HomeProps> = ({ publications }: HomeProps) => {
           }}
         />
         <BoxPublication publication={publications} />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          position: 'relative',
+          bottom: '450px',
+          right: '400px'
+        }}>
+          <BoxInfoUser publication={publications} />
+        </div>
 
         <div
           style={{
@@ -70,6 +80,7 @@ const Publication: NextPage<HomeProps> = ({ publications }: HomeProps) => {
             marginLeft: '600px'
           }}
         >
+
           <h1>Comentários</h1>
           {mockCommentsData.comments.map((comment) => (
             <CommentBox key={comment.id} comment={comment} />
