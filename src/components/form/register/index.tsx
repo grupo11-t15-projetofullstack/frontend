@@ -3,7 +3,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useContext } from "react";
 import { Input } from "../input";
-import { useNavigate } from "react-router-dom";
 import { IRegister, UserContext } from "@/contexts/user";
 import { useRouter } from "next/router";
 
@@ -18,7 +17,7 @@ const schema = yup.object({
 });
 
 export const RegisterForm = () => {
-  const router = useRouter()
+  const navigate = useRouter();
 
   const { UserRegister } = useContext(UserContext);
   const {
@@ -64,19 +63,43 @@ export const RegisterForm = () => {
       />
       <Input
         type="text"
-        label="Digitar Descrição"
-        register={register("description")}
-        error={(errors as Record<string, FieldError>).description}
+        label="CEP"
+        register={register("addressId.cep")}
+        error={(errors as Record<string, FieldError>)?.cep}
       />
       <Input
         type="text"
-        label="informações de endereço"
-        register={register("addressId")}
-        error={(errors as Record<string, FieldError>).addressId}
+        label="Estado"
+        register={register("addressId.state")}
+        error={(errors as Record<string, FieldError>)?.state}
+      />
+      <Input
+        type="text"
+        label="Cidade"
+        register={register("addressId.city")}
+        error={(errors as Record<string, FieldError>)?.city}
+      />
+      <Input
+        type="text"
+        label="Rua"
+        register={register("addressId.number")}
+        error={(errors as Record<string, FieldError>)?.number}
+      />
+      <Input
+        type="text"
+        label="Número"
+        register={register("addressId.complement")}
+        error={(errors as Record<string, FieldError>)?.complement}
+      />
+      <Input
+        type="text"
+        label="Complemento"
+        register={register("addressId.complement")}
+        error={(errors as Record<string, FieldError>)?.complement}
       />
       <Input
         type="select"
-        options={["Comprador", "Anunciante"]}
+        options={["Anunciante", "Comprador"]}
         label="Tipo de Conta"
         register={register("addressId")}
         error={(errors as Record<string, FieldError>).isSeller}
@@ -96,7 +119,10 @@ export const RegisterForm = () => {
       <button className="submitSignup" type="submit">
         Finalizar Cadastro
       </button>
-      <button   onClick={()=> router.push("/login")} className="backToLoginButton">
+      <button
+        onClick={() => navigate.push("/login")}
+        className="backToLoginButton"
+      >
         Voltar para o login
       </button>
     </form>

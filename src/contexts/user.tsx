@@ -13,18 +13,29 @@ interface IDefaultProviderProps {
   children: React.ReactNode;
 }
 
+export interface Addresses {
+  id: number;
+  cep: string;
+  state: string;
+  city: string;
+  number: number;
+  complement: string;
+  userId: number;
+}
+
 export interface IUser {
   id: number ;
   name: string;
   email: string;
   phone: string;
-  // addressId?: Adresses;
+  addressId?: Addresses;
   isSeller: boolean;
   avatar: string;
   description: string;
   cpf: string;
   birth: string;
 }
+
 export interface IUserOwnPublish {
   id: number;
   model: string;
@@ -79,7 +90,7 @@ export interface IRegister {
   phone: string;
   birth: string;
   description: string;
-  // addressId?: Adresses;
+  addressId?: Addresses;
   isSeller: boolean;
 }
 
