@@ -70,7 +70,6 @@ export function PublishProvider({ children }: Props) {
     distance: 0,
     price: 0,
     isGoodSell: false,
-    userId: "",
     description: "",
     coverImg: "",
     images: [""],
@@ -100,11 +99,14 @@ export function PublishProvider({ children }: Props) {
 
     publishInfo.images = Object.values(images)
 
-    const goodSale =
-      priceFipe >= publishInfo.price - (publishInfo.price / 100) * 5
+    const goodSale = publishInfo.price <= priceFipe - (priceFipe / 100) * 5
+
+    console.log(goodSale)
 
     if (goodSale) {
       publishInfo.isGoodSell = true
+    } else {
+      publishInfo.isGoodSell = false
     }
 
     // try {
