@@ -117,6 +117,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     try {
       const response = await api.post<any>("/login", formData);
       localStorage.setItem("@Token", response.data.token);
+      console.log("%%%%%%%%%%%%%%%%%%%", localStorage.setItem("@Token", response.data.token))
       toast.success("Login Realizado com sucesso!");
       router.push("/");
     } catch (error) {

@@ -106,12 +106,18 @@ export function PublishProvider({ children }: Props) {
     if (goodSale) {
       publishInfo.isGoodSell = true
     }
+    console.log('%$$$$$$$$$$$$$$$',publishInfo)
 
-    // try {
-    //   const response = await api.post("/publications", publishInfo)
-    // } catch (error: any) {
-    //   console.log(error.message)
-    // }
+    const token = localStorage.getItem('@Token')
+    const headers = {"Authorization": `Bearer ${token}`}
+    try {
+      const response = await api.post("/publications", publishInfo, {headers})
+
+    } catch (error: any) {
+      console.log(error.message)
+    }
+
+
   }
 
   const getAllPublish = async (data: IgetAllPublishProps) => {

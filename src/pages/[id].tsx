@@ -95,10 +95,11 @@ export const getStaticProps: GetStaticProps<PublicationsProps> = async (ctx) => 
     const id = ctx.params!.id;
     const response = await api.get(`/users/${id}`);
 
-    // const idAddress = ctx.params!.id
-    // const responseAddress = await api.patch(`/addresses/${idAddress}`)
+    const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
+    const repo = await res.json()
 
-    return { props: { publict: response.data }, revalidate: 60 };
+
+    return { props: { publict: response.data, }, revalidate: 60 };
 };
 
 export default OwnProfile
