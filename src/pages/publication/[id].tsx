@@ -10,6 +10,7 @@ import { BoxPublication } from "@/components/PagerPublication/InfoPublication";
 import { CommentBox } from "@/components/PagerPublication/commentBox";
 import { mockCommentsData } from "@/mock/comments";
 import { BoxInfoUser } from "@/components/PagerPublication/infoUser";
+import { WriteComments } from "@/components/PagerPublication/writeComment";
 
 
 interface HomeProps {
@@ -31,12 +32,21 @@ export interface Publication {
   userId?: number
   user?: {
     name: string
+    phone: number
   }
   description: string,
   comments: [{}]
 }
 
-const Publication: NextPage<HomeProps> = ({ publications, publict }: HomeProps) => {
+export interface Comment {
+  description: string;
+  id: number;
+  user: {
+    name: string;
+  };
+}
+
+const Publication: NextPage<HomeProps> = ({ publications, publict, comments }: HomeProps) => {
   return (
     <div className="flex flex-col min-h-screen">
       <header>
@@ -77,16 +87,21 @@ const Publication: NextPage<HomeProps> = ({ publications, publict }: HomeProps) 
             maxWidth: "500px",
             flexDirection: 'column',
             background: '#ffffff',
-            marginLeft: '600px'
+            marginLeft: '600px',
+            position: 'relative',
+            bottom: '300px'
           }}
         >
 
           <h1>Comentários</h1>
-          {mockCommentsData.comments.map((comment) => (
+          {publications.comments.map((comment) => (
             <CommentBox key={comment.id} comment={comment} />
+            
           ))}
         </div>
+        <WriteComments publication={publications} />
       </div>
+      
       <footer className="mt-auto">
         <DefaultFooter />
       </footer>
@@ -101,9 +116,11 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (ctx) => 
     const response = await api.get(`/publications/${id}`)
     const publications: Publication[] = response.data
 
+    
     return {
       props: {
         publications,
+        
       },
     }
   } catch (error) {
@@ -111,6 +128,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (ctx) => 
     return {
       props: {
         publications: [],
+      
       },
     }
   }

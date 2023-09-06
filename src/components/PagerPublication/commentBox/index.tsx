@@ -3,7 +3,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 export const CommentBox = ({ comment }) => {
-    const formattedDate = formatDistanceToNow(new Date(comment.createAt), {
+    const formattedDate = formatDistanceToNow(new Date(comment.createdAt), {
         locale: ptBR,
         addSuffix: true,
     });

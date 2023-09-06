@@ -57,7 +57,7 @@ const Home: NextPage<HomeProps> = ({ publications, repo }: HomeProps) => {
             setFilteredCards={setFilteredCards}
             filteredCards={filteredCards}
           />
-          <div className="grid grid-cols-3 gap-10 ml-40">
+          <div className="grid lg:grid-cols-3 gap-10 ml-40 sm:grid-cols-1">
             {filteredCards.length > 0 ? (
               filteredCards.map((publication, index) => (
                 <Card key={index} publication={publication} />

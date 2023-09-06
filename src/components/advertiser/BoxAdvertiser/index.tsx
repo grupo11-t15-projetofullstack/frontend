@@ -92,7 +92,7 @@ const BoxAdvertiser = (user, repo) => {
             Anunciante
           </p>
         </div>
-        <button onClick={() => { console.log(user) }}>CONSOLE</button>
+        <button onClick={() => { console.log(user)}}>CONSOLE</button>
         <p>
           {userData?.user.description}
         </p>
