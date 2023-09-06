@@ -59,7 +59,7 @@ const Card = ({ publication }: CardProps) => {
           </p>
         </div>
         <p className="font-medium leading-7 text-base">
-          R$ {publication.price.toFixed(2)}
+          R$ {publication.price.toLocaleString() + ",00"}
         </p>
       </div>
     </div>

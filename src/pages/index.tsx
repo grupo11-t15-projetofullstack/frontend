@@ -51,13 +51,13 @@ const Home: NextPage<HomeProps> = ({ publications, repo }: HomeProps) => {
           <Image alt="banner" src={bannerHome} className="w-screen" />
         </div>
 
-        <main className="flex align-middle justify-between ml-12 mr-[300px] my-14">
+        <main className="flex align-middle justify-between ml-12 mr-[50px] my-14">
           <Select
             repo={publications}
             setFilteredCards={setFilteredCards}
             filteredCards={filteredCards}
           />
-          <div className="grid grid-cols-3 gap-20 ml-48">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 xl:mr-40 gap-20 ">
             {filteredCards.length > 0 ? (
               filteredCards.map((publication, index) => (
                 <Card key={index} publication={publication} />
