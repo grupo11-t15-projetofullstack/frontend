@@ -10,6 +10,7 @@ import bannerHome from "../assets/bannerHome.svg"
 
 interface HomeProps {
   publications: Publication[]
+  repo: any
 }
 
 export interface Publication {
@@ -46,19 +47,19 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
           <Image alt="banner" src={bannerHome} className="w-screen" />
         </div>
 
-        <main className="flex align-middle pl-32 mb-20">
+        <main className="flex align-middle justify-between ml-12 mr-[50px] my-14">
           <Select
             repo={publications}
             setFilteredCards={setFilteredCards}
             filteredCards={filteredCards}
           />
-          <div className="grid lg:grid-cols-3 gap-10 ml-40 sm:grid-cols-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 xl:mr-40 gap-20 ">
             {filteredCards.length > 0 ? (
               filteredCards.map((publication, index) => (
                 <Card key={index} publication={publication} />
               ))
             ) : (
-              <h1>Nenhum veículo encontrado</h1>
+              <h1 className="text-2xl mx-auto">Nenhum veículo encontrado</h1>
             )}
           </div>
         </main>
@@ -69,14 +70,18 @@ const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = async () => {
   try {
     const response = await api.get("/publications")
     const publications: Publication[] = response.data
 
+    const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
+    const repo = await res.json()
+
     return {
       props: {
         publications,
+        repo,
       },
     }
   } catch (error) {
