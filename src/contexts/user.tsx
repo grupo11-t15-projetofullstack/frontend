@@ -209,6 +209,8 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     router.push("/")
   }
 
+  const dummy = 0
+
   return (
     <UserContext.Provider
       value={{
