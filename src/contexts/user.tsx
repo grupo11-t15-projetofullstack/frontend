@@ -70,7 +70,6 @@ interface IUserContext {
   UserUpdateProfile: (formData: IUpdateProfile, user: { id: number }) => void
   sendEmail: (sendEmailResetPasswordData: SendEmailResetPasswordData) => void
   resetPassword: (resetPasswordData: ResetPasswordData, token: string) => void
-  UserPublication: (publications: IUserOwnPublish[]) => void
   getOneUser: (userId: number) => Promise<void>
   userPublications: IUserOwnPublish[]
   setUserPublications: Dispatch<SetStateAction<IUserOwnPublish[]>>
@@ -201,7 +200,12 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     setUser(null)
     localStorage.removeItem("@Token")
     localStorage.removeItem("@UserID")
-    toast.success("Logout Realizado com sucesso!")
+    toast.success("Logout realizado com sucesso!")
+    const isHome = router.asPath === "/"
+    if (isHome) {
+      location.reload()
+    }
+
     router.push("/")
   }
 
