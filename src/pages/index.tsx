@@ -1,8 +1,6 @@
 import Card from "@/components/card"
 import DefaultFooter from "@/components/footer"
 import DefaultHeader from "@/components/header"
-import { Modal } from "@/components/modal"
-import { PublishForm } from "@/components/publishForm"
 import { Select } from "@/components/select"
 import { api } from "@/services/api"
 import { GetServerSideProps, NextPage } from "next"
@@ -11,8 +9,7 @@ import { useEffect, useState } from "react"
 import bannerHome from "../assets/bannerHome.svg"
 
 interface HomeProps {
-  publications: Publication[],
-  repo: any
+  publications: Publication[]
 }
 
 export interface Publication {
@@ -34,10 +31,8 @@ export interface Publication {
   description: string
 }
 
-const Home: NextPage<HomeProps> = ({ publications, repo }: HomeProps) => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
   const [filteredCards, setFilteredCards] = useState<Publication[]>([])
-  const toggleModal = () => setIsOpenModal(!isOpenModal)
 
   useEffect(() => {
     setFilteredCards(publications)
@@ -67,12 +62,6 @@ const Home: NextPage<HomeProps> = ({ publications, repo }: HomeProps) => {
             )}
           </div>
         </main>
-        <button onClick={toggleModal}>Modal</button>
-        {isOpenModal && (
-          <Modal toggleModal={toggleModal}>
-            <PublishForm toggleModal={toggleModal} repo={repo} />
-          </Modal>
-        )}
 
         <DefaultFooter />
       </div>
@@ -80,19 +69,14 @@ const Home: NextPage<HomeProps> = ({ publications, repo }: HomeProps) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const response = await api.get("/publications")
     const publications: Publication[] = response.data
 
-    const res = await fetch("https://kenzie-kars.herokuapp.com/cars")
-    const repo = await res.json()
-  
     return {
       props: {
         publications,
-        repo
-        
       },
     }
   } catch (error) {
@@ -103,7 +87,6 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
       },
     }
   }
-  
 }
 
 export default Home
