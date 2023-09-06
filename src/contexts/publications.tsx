@@ -9,6 +9,7 @@ import {
   useContext,
   useState,
 } from "react"
+import { toast } from "react-toastify"
 
 interface Props {
   children: ReactNode
@@ -97,25 +98,27 @@ export function PublishProvider({ children }: Props) {
     publishInfo.fuel =
       carInfo.fuel == 1 ? "Flex" : carInfo.fuel == 2 ? "Híbrido" : "Elétrico"
 
-    publishInfo.images = Object.values(images)
+    const imagesArray = Object.values(images)
 
     const goodSale = publishInfo.price <= priceFipe - (priceFipe / 100) * 5
 
-    console.log(goodSale)
-
     publishInfo.isGoodSale = goodSale
-    console.log('%$$$$$$$$$$$$$$$',publishInfo)
 
-    const token = localStorage.getItem('@Token')
-    const headers = {"Authorization": `Bearer ${token}`}
+    const imagesFiltered = imagesArray.filter((image) => {
+      return image !== ""
+    })
+
+    publishInfo.images = imagesFiltered
+
+    const token = localStorage.getItem("@Token")
+    const headers = { Authorization: `Bearer ${token}` }
     try {
-      const response = await api.post("/publications", publishInfo, {headers})
-
+      const response = await api.post("/publications", publishInfo, { headers })
+      toast.success("Seu anúncio foi criado com sucesso!")
     } catch (error: any) {
       console.log(error.message)
+      toast.error("Algo deu errado!")
     }
-
-
   }
 
   const getAllPublish = async (data: IgetAllPublishProps) => {

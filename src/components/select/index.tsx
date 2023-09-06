@@ -274,7 +274,6 @@ export const Select = ({
           marginLeft: "15px",
         }}
       >
-        <button onClick={() => console.log(filteredCards)}>CONSOLE</button>
         <form className="flex flex-col gap-2">
           <div>
             <label className="font-semibold text-2xl mb-2">Marca</label>
