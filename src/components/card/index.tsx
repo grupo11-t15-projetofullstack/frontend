@@ -10,7 +10,7 @@ const Card = ({ publication }: CardProps) => {
   const router = useRouter()
 
   return (
-    <div className="relative flex flex-col gap-3 ml-">
+    <div className="relative flex flex-col gap-3 w-[300px]">
       <Image
         alt="Cover image"
         src={publication.coverImg}
@@ -30,7 +30,9 @@ const Card = ({ publication }: CardProps) => {
         {publication.make} - {publication.model}
       </h1>
       <p className="text-sm h-12 font-normal leading-6">
-        {publication.description}
+        {publication.description.length > 84
+          ? publication.description.slice(0, 84) + "..."
+          : publication.description}
       </p>
       <div className="flex flex-row self-start gap-4 mt-1">
         <div className="rounded-full w-10 h-10 bg-brands-brand1 ">
@@ -57,7 +59,7 @@ const Card = ({ publication }: CardProps) => {
           </p>
         </div>
         <p className="font-medium leading-7 text-base">
-          R$ {publication.price.toFixed(2)}
+          R$ {publication.price.toLocaleString() + ",00"}
         </p>
       </div>
     </div>
