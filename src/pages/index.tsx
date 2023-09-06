@@ -1,8 +1,6 @@
 import Card from "@/components/card"
 import DefaultFooter from "@/components/footer"
 import DefaultHeader from "@/components/header"
-import { Modal } from "@/components/modal"
-import { PublishForm } from "@/components/publishForm"
 import { Select } from "@/components/select"
 import { api } from "@/services/api"
 import { GetServerSideProps, NextPage } from "next"
@@ -34,10 +32,8 @@ export interface Publication {
   description: string
 }
 
-const Home: NextPage<HomeProps> = ({ publications, repo }: HomeProps) => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+const Home: NextPage<HomeProps> = ({ publications }: HomeProps) => {
   const [filteredCards, setFilteredCards] = useState<Publication[]>([])
-  const toggleModal = () => setIsOpenModal(!isOpenModal)
 
   useEffect(() => {
     setFilteredCards(publications)
