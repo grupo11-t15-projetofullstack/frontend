@@ -117,7 +117,7 @@ export function PublishProvider({ children }: Props) {
 
 
   }
-const patchPublish
+
   const getAllPublish = async (data: IgetAllPublishProps) => {
     try {
       const response = await api.get("/publications", data)
